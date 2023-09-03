@@ -4,8 +4,13 @@ body {
 footer{
     bottom: 0; /* Располагаем футер в самом низу контейнера */
     width: 100%;
-    background-color: #ffffff; /* Пример цвета фона */
+    background-color: #ffffff; 
     padding: 20px;
     margin-left: 5%;
 }
-
+#Corp{
+    color: teal;
+}
+.cardsWithPosts{
+    display: flex;
+}

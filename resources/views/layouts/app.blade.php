@@ -14,7 +14,6 @@
     @if(Request::is('/'))
         @include('includes.hero')
     @endif
-
     <div class="container mt-5">
         @include('includes.messages')
         <h1>@yield('caption')</h1>

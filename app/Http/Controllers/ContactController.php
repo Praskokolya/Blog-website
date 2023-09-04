@@ -5,11 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Models\posts;
 class ContactController extends Controller
+
+
+
 {
-    public function submit(ContactRequest $req)
+    public function __construct()
     {
-        
+        $this->middleware('auth')->only('allData');
+    }
+    
+
+    public function submit(ContactRequest $req)
+
+    {
         $contact = new Contact();
         $contact->name = $req->input('name');
         $contact->email = $req->input('email');
@@ -18,12 +28,12 @@ class ContactController extends Controller
 
         $contact->save();
         
-        return redirect()->route('home')->with('success', 'Сообещние было добавлено');
-
+        return view('home', ['data' => $contact]);
 
     }
     
     public function allData(){;
+        $this->middleware('auth');
         $contact = new Contact;
         return view('messages', ['data' => Contact::All()]);
     }
@@ -55,6 +65,7 @@ class ContactController extends Controller
     public function deleteMessage($id){
         $contact = Contact::find($id);
         $contact->delete();
+        posts::where('idPost', $id)->delete();
         return redirect()->route('contactData')->with('success', 'Сообещние было удалено!');
     }
 
@@ -69,6 +80,22 @@ class ContactController extends Controller
         
         return view('oneTitle', ['data' => $contact]);
     }
+
+    public function showHomePage()
+    {
+        $allPosts = posts::all();
     
+        return view('home', ['data' => $allPosts]);
+    }
+    public function addMessage($id){
+        $post = Contact::find($id);
+        posts::create([
+            'idPost' => $post->id,
+            'subject' => $post->subject,
+            'message' => $post->message,
+            'email' => $post->email,
+        ]);
+    }
+     
     
 }

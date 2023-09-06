@@ -28,7 +28,7 @@ class ContactController extends Controller
 
         $contact->save();
         
-        return view('home', ['data' => $contact]);
+        return view('home');
 
     }
     
@@ -59,14 +59,14 @@ class ContactController extends Controller
 
         $contact->save();
         
-        return redirect()->route('contactDataOne', $id)->with('success', 'Сообещние было обновлено!');
+        return redirect()->route('contactDataOne', $id)->with('success', 'Post was updated');
     }
 
     public function deleteMessage($id){
         $contact = Contact::find($id);
         $contact->delete();
         posts::where('idPost', $id)->delete();
-        return redirect()->route('contactData')->with('success', 'Сообещние было удалено!');
+        return redirect()->route('contactData')->with('success', 'Post delete successful');
     }
 
     public function getPostByTitle(Request $req){
@@ -75,7 +75,7 @@ class ContactController extends Controller
         $contact = Contact::where('subject', $nameOfPost)->get();
         
         if ($contact->isEmpty()) {
-            return redirect()->route('contactData')->with('error', 'Записи не найдены');
+            return redirect()->route('contactData')->with('error', 'Posts not found');
         }
         
         return view('oneTitle', ['data' => $contact]);
@@ -88,13 +88,23 @@ class ContactController extends Controller
         return view('home', ['data' => $allPosts]);
     }
     public function addMessage($id){
+        
+        
         $post = Contact::find($id);
-        posts::create([
-            'idPost' => $post->id,
-            'subject' => $post->subject,
-            'message' => $post->message,
-            'email' => $post->email,
-        ]);
+
+        $checkIfPosted = posts::where('idPost', $post->id)->get();
+        
+        if ($checkIfPosted->count() > 0) {
+            return redirect()->route('contactData')->with('error', 'You already posted it');
+        } else {
+            posts::create([
+                'idPost' => $post->id,
+                'subject' => $post->subject,
+                'message' => $post->message,
+                'email' => $post->email,
+            ]);
+        }
+        
         return redirect()->route('home');
     }
      

@@ -3,7 +3,7 @@
 @section('content')
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Начать</h1>
+        <h1 class="text-center">Let's start!</h1>
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <form>

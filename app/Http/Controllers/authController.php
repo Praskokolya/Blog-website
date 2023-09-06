@@ -38,11 +38,11 @@ class authController extends Controller
                 return view('home', ['user' => $loggedUser]);
             }
             else{
-                return redirect()->route('login')->with('error', 'Невірний пароль');;
+                return redirect()->route('login')->with('error', 'Wrong password');;
             }
         }
          else {
-            return redirect()->route('login')->with('error', 'Імейл не знайден');
+                return redirect()->route('login')->with('error', 'Email not found');
         }
 
     }

@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
-@section('title-block')Все сообщения@endsection
+@section('title-block')All posts @endsection
 @section('content')
 @section('caption')
-    Все сообщения
+    All messages
 @endsection
+
 @foreach ($data as $element)
 <div class="alert alert-info">
     <h3>
@@ -12,8 +13,9 @@
     </h3>
     <p>{{$element->email}}</p>
     <p><small>{{ $element->created_at}}</small></p>
-    <a href="{{ route('contactDataOne', $element->id)}}"><button class="btn btn-warning">Подробнее</button></a>
+    <a href="{{ route('contactDataOne', $element->id)}}"><button class="btn btn-warning">More</button></a>
 </div>
+
 @endforeach
 @if(session('success'))
 <div class="alert alert-success">

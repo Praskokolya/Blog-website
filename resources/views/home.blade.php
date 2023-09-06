@@ -1,23 +1,24 @@
 @extends('layouts.app')
 
-@section('title-block')Главная страница@endsection
+@section('title-block')Main page @endsection
 
 @section('content')
-    <h1>Главная страница</h1>
+    <h1>Main page</h1>
     <p>
-        Наш сайт - это удобная платформа для публикации ваших сообщений на главной странице. Вы можете делиться своими мыслями, новостями, идеями и многим другим с нашим сообществом. Просто создайте аккаунт, напишите свое сообщение и поделитесь им с миром. У вас есть голос - дайте ему звучать!</p>
-    <h3>Список постов</h3>
+        Our website is a convenient platform to publish your posts on the homepage. You can share your thoughts, news, ideas and more with our community. Simply create an account, write your post and share it with the world. You have a voice - let it be heard!</p>
+    <h3>Posts list</h3>
     <div class="cardsWithPosts">
         @if (isset($data) && $data->count() == 0)
-        <p>Пока нет записей.</p>
+        <p>There are no posts yet.</p>
     @elseif (isset($data))
         <div class="row">
             @foreach ($data as $post)
             @if (is_object($post))
             <div class="col-md-4">
                 <div class="card border-danger mb-3" style="max-width: 18rem;">
-                    <div class="card-header">{{$post->subject}}
-                        {{$post->name}}
+                    <div class="card-header">
+                        {{$post->subject}}
+                        <p class="card-text">{{$post->subject}}</p>
                     </div>
                     <div class="card-body text-danger">
                       <p class="card-text">{{$post->message}}</p>

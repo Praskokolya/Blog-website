@@ -3,26 +3,26 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mt-5">Регистрация</h2>
+        <h2 class="mt-5">Registration</h2>
         <form action="{{ route('registerAccount') }}" method="GET">
             @csrf
             <div class="mb-3">
-                <label for="username" class="form-label">Имя пользователя</label>
-                <input type="text" class="form-control" name="nickname" id="username" placeholder="Введите имя пользователя">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" name="nickname" id="username" placeholder="Enter username">
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">Email адрес</label>
-                <input type="email" class="form-control"  name="email" id="email" placeholder="Введите email">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control"  name="email" id="email" placeholder="Enter email">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Пароль</label>
-                <input type="password" class="form-control" name="password" id="password" placeholder="Введите пароль">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
             </div>
             <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Подтвердите пароль</label>
-                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Подтвердите пароль" required>
+                <label for="confirmPassword" class="form-label">Confirm password</label>
+                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm password" required>
             </div>
-            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            <button type="submit" class="btn btn-primary">Check in</button>
         </form>
     </div>
 

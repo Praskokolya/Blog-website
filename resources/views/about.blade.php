@@ -5,8 +5,8 @@
 @endsection
 
 @section('content')
-<h1>Страница про нас</h1>
-<p><h3>Это небольшой сайт Коляна Праська</h3>
+<h1>About Us page</h1>
+<p><h3>This is Kolyan Prasko little website.</h3>
 </p>
-<h5>Здесь вы можете прислать нам сообщение и если оно нам понравиться мы запостим его к нам</h5>
+<h5>Here you can send us a message and if we like it we will post it to us</h5>
 @endsection

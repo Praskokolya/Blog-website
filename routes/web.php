@@ -43,3 +43,5 @@ Route::get('/auth/reg', 'App\Http\Controllers\authController@registration')->nam
 Route::get('/auth/log', 'App\Http\Controllers\authController@login')->name('login');
 
 Route::get('/auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
+
+Route::get('/auth/log/done', 'App\Http\Controllers\authController@checkIfLog')->name('logAccount');

@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AuthLoginRequest;
 use App\Models\RegistredUsers;
 use Illuminate\Http\Request;
-
 class authController extends Controller
 {
     public function signUpForm(){
@@ -18,12 +18,14 @@ class authController extends Controller
         return view('RegComponents.login');
     }
     public function createAccount(AuthLoginRequest $req){
-        $registredUser = new RegistredUsers(); // Используйте правильное имя класса модели
+        $registredUser = new RegistredUsers(); 
         $registredUser->nickname = $req->input('nickname');
         $registredUser->email = $req->input('email');
-        $registredUser->password = bcrypt($req->input('password')); // Обычно пароль хешируется перед сохранением
+        $registredUser->password = bcrypt($req->input('password')); 
         $registredUser->save();
+
         Auth::login($registredUser);
+        return redirect('/');
     }
 
     

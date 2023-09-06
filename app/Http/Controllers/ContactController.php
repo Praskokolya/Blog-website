@@ -95,6 +95,7 @@ class ContactController extends Controller
             'message' => $post->message,
             'email' => $post->email,
         ]);
+        return redirect()->route('home');
     }
      
     

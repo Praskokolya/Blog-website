@@ -8,7 +8,7 @@
   </nav>
   @if (Auth::check())
   <a class="p-2 text-dark" href="{{ route('logoutAccount') }}">Logout</a>    
-  <div><h5>{{ Auth::user()->nickname }}</h5></div>
+  <div><h6>{{ Auth::user()->nickname }}</h6></div>
   @else
       <a class="btn btn-outline-primary" href="{{ route("authForm") }}">Sign up</a>
   @endif

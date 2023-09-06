@@ -27,7 +27,7 @@ class authController extends Controller
         $registredUser->save();
 
         Auth::login($registredUser);
-        return redirect('/');
+        return view('includes.header', ['user' => $loggedUser]);
     }
     public function checkIfLog(LoginRequest $req){
         $loggedUser = RegistredUsers::where('email', $req->email)->first();
@@ -44,6 +44,15 @@ class authController extends Controller
          else {
             return redirect()->route('login')->with('error', 'Імейл не знайден');
         }
+
+    }
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Выход пользователя
+
+        $request->session()->invalidate(); // Очистка сессии
+    
+        return redirect('/'); 
     }
     
 

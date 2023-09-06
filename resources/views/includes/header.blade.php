@@ -5,6 +5,7 @@
       <a class="p-2 text-dark" href="{{ route('contact') }}">Добавить</a>
       <a class="p-2 text-dark" href="{{ route('about') }}">Про нас</a>
       <a class="p-2 text-dark" href="{{ route('contactData') }}">Сообщения</a>
+      <a class="p-2 text-dark" href="{{ route('logoutAccount') }}">Выйти из аккаунта</a>
   </nav>
   @if (Auth::check())
       <div>{{ Auth::user()->nickname }}</div>

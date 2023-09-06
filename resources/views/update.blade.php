@@ -25,6 +25,7 @@
         <label for="message">Message</label>
         <textarea name="message" id="message" cols="10" rows="10" class="form-control" placeholder="Message">{{$data->message}}</textarea>
     </div>
-    <button type="submit" class="btn btn-success">Update</button>
+    <button type="submit" class="btn btn-success">Update</button> 
+    {{-- my comment  --}}
 </form>
 @endsection

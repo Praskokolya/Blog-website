@@ -44,4 +44,4 @@ Route::get('/auth/log', 'App\Http\Controllers\authController@login')->name('logi
 
 Route::get('/auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
 
-Route::get('/auth/log/done', 'App\Http\Controllers\authController@checkIfLog')->name('logAccount');
+Route::post('/auth/log/done', 'App\Http\Controllers\authController@checkIfLog')->name('logAccount');

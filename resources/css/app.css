@@ -14,3 +14,6 @@ footer{
 .cardsWithPosts{
     display: flex;
 }
+.nickname{
+    background-color: 123;
+}

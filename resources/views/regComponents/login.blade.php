@@ -6,15 +6,15 @@
 @section('content')
     <div class="container">
         <h2 class="mt-5">Вход</h2>
-        <form action="route({{"logAccount"}})">
+        <form action="{{route("logAccount")}}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="email" class="form-label">Email адрес</label>
-                <input type="email" class="form-control" id="email" placeholder="Введите email">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Введите email">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Пароль</label>
-                <input type="password" class="form-control" id="password" placeholder="Введите пароль">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Введите пароль">
             </div>
             <button type="submit" class="btn btn-primary">Войти</button>
         </form>

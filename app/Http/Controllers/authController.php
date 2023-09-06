@@ -27,7 +27,7 @@ class authController extends Controller
         $registredUser->save();
 
         Auth::login($registredUser);
-        return view('includes.header', ['user' => $loggedUser]);
+        return view('home', ['user' => $registredUser]);
     }
     public function checkIfLog(LoginRequest $req){
         $loggedUser = RegistredUsers::where('email', $req->email)->first();
@@ -35,7 +35,7 @@ class authController extends Controller
         if ($loggedUser) {
             if (Hash::check($req->password, $loggedUser->password)){
                 Auth::login($loggedUser);
-                return view('includes.header', ['user' => $loggedUser]);
+                return view('home', ['user' => $loggedUser]);
             }
             else{
                 return redirect()->route('login')->with('error', 'Невірний пароль');;
@@ -48,9 +48,8 @@ class authController extends Controller
     }
     public function logout(Request $request)
     {
-        Auth::logout(); // Выход пользователя
-
-        $request->session()->invalidate(); // Очистка сессии
+        Auth::logout(); 
+        $request->session()->invalidate(); 
     
         return redirect('/'); 
     }

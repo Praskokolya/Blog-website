@@ -17,7 +17,6 @@
             <div class="col-md-4">
                 <div class="card border-danger mb-3" style="max-width: 18rem;">
                     <div class="card-header">
-                        {{$post->subject}}
                         <p class="card-text">{{$post->subject}}</p>
                     </div>
                     <div class="card-body text-danger">

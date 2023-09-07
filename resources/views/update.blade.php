@@ -26,6 +26,6 @@
         <textarea name="message" id="message" cols="10" rows="10" class="form-control" placeholder="Message">{{$data->message}}</textarea>
     </div>
     <button type="submit" class="btn btn-success">Update</button> 
-    {{-- my comment  --}}
+    {{-- my comment super great --}}
 </form>
-@endsection
+@endsection  

@@ -5,7 +5,9 @@
 @section('content')
 <h1>{{$data->subject}}</h1>
 <div class="alert alert-info">
-    <p>{{$data->message }}</p>
+    <div class="alert alert-info" style="max-width: 900px;">
+        <p style="word-wrap: break-word;">{{$data->message }}</p>
+    </div>
     <p>{{$data->email}}</p>
     <p><small>{{ $data->created_at}}</small></p>
     <a href="{{ route("postMessage", $data->id)}}"><button type="button" class="btn btn-success">Post this message</button></a>
@@ -18,4 +20,5 @@
     {{ session('success') }}
 </div>
 @endif
+
 @endsection

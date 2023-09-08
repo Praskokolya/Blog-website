@@ -3,10 +3,9 @@
 @section('title-block')Main page @endsection
 
 @section('content')
-    <h1>Main page</h1>
-    <p>
-        Our website is a convenient platform to publish your posts on the homepage. You can share your thoughts, news, ideas and more with our community. Simply create an account, write your post and share it with the world. You have a voice - let it be heard!</p>
-    <h3>Posts list</h3>
+    <h1>{{__('messages.main_page')}} </h1>
+    <p>{{__('messages.our_website')}}</p>
+    <h3>{{__('messages.posts_list')}}</h3>
     <div class="cardsWithPosts">
         @if (isset($data) && $data->count() == 0)
         <p>There are no posts yet.</p>

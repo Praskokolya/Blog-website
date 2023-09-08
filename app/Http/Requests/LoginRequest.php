@@ -30,10 +30,10 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Поле email должно быть обязательным',
-            'password.required' => 'Поле пароль должно быть обязательным',
-            'password.min' => 'Поле пароль должно содержать не менее :min символов',
-            'email.unique' => "Данный email уже используеться",
+            'email.required' => 'The email field is required',
+            'password.required' => 'The password field is required',
+            'password.min' => 'The password field must be at least :min characters',
+            'email.unique' => 'This email is already in use',
         ];
     }
 }

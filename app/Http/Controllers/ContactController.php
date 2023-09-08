@@ -59,8 +59,7 @@ class ContactController extends Controller
     {
         
         $contact = Contact::find($id);
-        $contact->name = $req->input('name');
-        $contact->email = $req->input('email');
+
         $contact->subject = $req->input('subject');
         $contact->message = $req->input('message');
 
@@ -72,7 +71,6 @@ class ContactController extends Controller
     public function deleteMessage($id){
         $contact = Contact::find($id);
         $contact->delete();
-        posts::where('idPost', $id)->delete();
         return redirect()->route('contactData')->with('success', 'Post delete successful');
     }
 

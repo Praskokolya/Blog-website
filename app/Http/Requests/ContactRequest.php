@@ -33,10 +33,10 @@ class ContactRequest extends FormRequest
     }
     public function messages(){;
         return [
-            'name.required' => 'Поле имя должно быть обязетельным',
-            'email.required' => 'Поле email должно быть обязетельным',
-            'subject.required' => 'Поле тема сообщения должно быть обязетельным',
-            'message.required' => 'Поле сообщение должно быть обязетельным',
+            'name.required' => 'The name field is required',
+            'email.required' => 'The email field is required',
+            'subject.required' => 'The subject field is required',
+            'message.required' => 'The message field is required',
         ];   
     }
 }

@@ -10,7 +10,7 @@
   <a class="p-2 text-dark" href="{{ route('logoutAccount') }}">{{__('messages.logout')}}</a>    
   <div class="mr-3"><b>{{ Auth::user()->nickname }}</b></div>
   @else
-      <a class="btn btn-outline-primary" href="{{ route("authForm") }}">{{__('messages.sign_up')}}</a>
+      <div class="mr-1"><a class="btn btn-outline-primary" href="{{ route("authForm") }}">{{__('messages.sign_up')}}</a></div>
   @endif
   <a href="{{route('changeLanguage', __('messages.set_lang')) }}">{{__('messages.set_lang')}}</a>
 

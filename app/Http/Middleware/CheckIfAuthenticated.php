@@ -19,7 +19,7 @@ class CheckIfAuthenticated
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            return $next($request); // Пропустить запрос дальше
+            return $next($request);
         }
         return redirect()->route('auth', ['redirectTo' => '/auth/log']);
     

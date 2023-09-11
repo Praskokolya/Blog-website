@@ -7,35 +7,32 @@ use App\Models\RegistredUsers;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Models\Contact;
-use App\Models\posts;
+use App\Services\ContactService;
 class ContactController extends Controller
 
-
-
 {
-    public function __construct()
+    public $contactService;
+    public function __construct(ContactService $contactService)
     {
+        $this->contact = new Contact;
+        $this->contactService = $contactService;
         $this->middleware('auth')->only('allData');
+
     }
     
 
     public function submit(ContactRequest $req)
-
     {
-        $contact = new Contact();
-        $contact->subject = $req->input('subject');
-        $contact->message = $req->input('message');
-        
-        $contact->save();
-        
+               
+        $subject = $req->input('subject');
+        $message = $req->input('message');
+        $this->contactService->insertToDB($subject, $message);
         return view('home');
 
     }
     
     public function allData(){;
-        $this->middleware('auth');
-        $contact = new Contact;
-        return view('messages', ['data' => Contact::All()]);
+        return view('messages', ['data' => $this->contact::All()]);
     }
 
     public function showOneMessage($id){
@@ -87,8 +84,8 @@ class ContactController extends Controller
     }
 
     public function showHomePage()
-    {
-        
+    { 
+
         $allPosts = Contact::where('is_posted', true)->get();
     
         return view('home', ['data' => $allPosts]);

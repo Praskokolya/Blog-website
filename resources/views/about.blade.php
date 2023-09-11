@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('title-block')
-Страница про нас
+{{__('messages.about')}}
 @endsection
 
 @section('content')
-<h1>About Us page</h1>
-<p><h3>This is Kolyan Prasko little website.</h3>
+<h1>{{__('messages.about')}}</h1>
+<p><h3>{{__('messages.owner_site')}}</h3>
 </p>
-<h5>Here you can send us a message and if we like it we will post it to us</h5>
+<h5>{{__('messages.what_to_do')}}</h5>
 @endsection

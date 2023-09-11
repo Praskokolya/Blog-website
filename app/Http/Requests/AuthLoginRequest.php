@@ -23,14 +23,14 @@ class AuthLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'nickname.required' => 'Поле имя должно быть обязательным',
-            'email.required' => 'Поле email должно быть обязательным',
-            'password.required' => 'Поле пароль должно быть обязательным',
-            'password.min' => 'Поле пароль должно содержать не менее :min символов',
-            'confirmPassword.required' => 'Поле подтверждения пароля должно быть обязательным',
-            'confirmPassword.min' => 'Поле подтверждения пароля должно содержать не менее :min символов',
-            'email.unique' => "Данный email уже используеться",
-            'nickname.unique' => "Этот никнейк занят, выберите другой",
+            'nickname.required' => 'The nickname field is required',
+            'email.required' => 'The email field is required',
+            'password.required' => 'The password field is required',
+            'password.min' => 'The password field must contain at least :min characters',
+            'confirmPassword.required' => 'The confirm password field is required',
+            'confirmPassword.min' => 'The confirm password field must contain at least :min characters',
+            'email.unique' => 'This email is already in use',
+            'nickname.unique' => 'This nickname is already taken, please choose another',
         ];
     }
 }

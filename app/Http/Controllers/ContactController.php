@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
+use App\Models\RegistredUsers;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Models\Contact;
@@ -21,11 +23,9 @@ class ContactController extends Controller
 
     {
         $contact = new Contact();
-        $contact->name = $req->input('name');
-        $contact->email = $req->input('email');
         $contact->subject = $req->input('subject');
         $contact->message = $req->input('message');
-
+        
         $contact->save();
         
         return view('home');
@@ -40,7 +40,14 @@ class ContactController extends Controller
 
     public function showOneMessage($id){
         $contact = new Contact;
-        return view('oneMessage',  ['data' => $contact->find($id)]);
+        $user = Auth::user();
+
+            $login = $user->nickname;
+            $email = $user->email;
+            $contact = new Contact;
+
+            return view('oneMessage', ['data' => $contact->find($id), 'name' => $login, 'email' => $email]);
+
     }
 
     public function updateMessage($id){
@@ -52,8 +59,7 @@ class ContactController extends Controller
     {
         
         $contact = Contact::find($id);
-        $contact->name = $req->input('name');
-        $contact->email = $req->input('email');
+
         $contact->subject = $req->input('subject');
         $contact->message = $req->input('message');
 
@@ -65,7 +71,6 @@ class ContactController extends Controller
     public function deleteMessage($id){
         $contact = Contact::find($id);
         $contact->delete();
-        posts::where('idPost', $id)->delete();
         return redirect()->route('contactData')->with('success', 'Post delete successful');
     }
 
@@ -83,7 +88,8 @@ class ContactController extends Controller
 
     public function showHomePage()
     {
-        $allPosts = posts::all();
+        
+        $allPosts = Contact::where('is_posted', true)->get();
     
         return view('home', ['data' => $allPosts]);
     }
@@ -92,20 +98,14 @@ class ContactController extends Controller
         
         $post = Contact::find($id);
 
-        $checkIfPosted = posts::where('idPost', $post->id)->get();
-        
-        if ($checkIfPosted->count() > 0) {
+        if($post->is_posted){
             return redirect()->route('contactData')->with('error', 'You already posted it');
-        } else {
-            posts::create([
-                'idPost' => $post->id,
-                'subject' => $post->subject,
-                'message' => $post->message,
-                'email' => $post->email,
-            ]);
+        }else{
+            $post->update(['is_posted' => true]);
         }
-        
-        return redirect()->route('home');
+        if($post->is_posted = true){
+            return redirect('/');
+        }
     }
      
     

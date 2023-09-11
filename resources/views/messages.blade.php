@@ -3,7 +3,7 @@
 @section('title-block')All posts @endsection
 @section('content')
 @section('caption')
-    All messages
+    {{__('messages.all_messages')}}
 @endsection
 
 @foreach ($data as $element)
@@ -13,7 +13,7 @@
     </h3>
     <p>{{$element->email}}</p>
     <p><small>{{ $element->created_at}}</small></p>
-    <a href="{{ route('contactDataOne', $element->id)}}"><button class="btn btn-warning">More</button></a>
+    <a href="{{ route('contactDataOne', $element->id)}}"><button class="btn btn-warning">{{__('messages.more')}}</button></a>
 </div>
 
 @endforeach

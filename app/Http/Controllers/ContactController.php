@@ -8,27 +8,27 @@ use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Services\ContactService;
+use App\Repositories\ContactRepository;
 class ContactController extends Controller
 
 {
     public $contactService;
-    public function __construct(ContactService $contactService)
+    public $contactRepository;
+    public function __construct(ContactService $contactService, ContactRepository $contactRepository)
     {
         $this->contact = new Contact;
+        $this->contactRepository = $contactRepository;
         $this->contactService = $contactService;
         $this->middleware('auth')->only('allData');
-
     }
     
 
     public function submit(ContactRequest $req)
     {
-               
         $subject = $req->input('subject');
         $message = $req->input('message');
-        $this->contactService->insertToDB($subject, $message);
+        $this->contactRepository->insertMessage($subject, $message);
         return view('home');
-
     }
     
     public function allData(){;
@@ -36,60 +36,61 @@ class ContactController extends Controller
     }
 
     public function showOneMessage($id){
-        $contact = new Contact;
-        $user = Auth::user();
+        $user = Auth::user()->nickname;
 
-            $login = $user->nickname;
-            $email = $user->email;
-            $contact = new Contact;
+        $this->contactService->transmitUserData($user, $id);
 
-            return view('oneMessage', ['data' => $contact->find($id), 'name' => $login, 'email' => $email]);
-
+        $postInfo = $this->contactRepository->getInfoFromUser($id);
+        return view('OneMessage', ['data' => $postInfo, 'name' => $user]);
     }
 
     public function updateMessage($id){
-        $contact = new Contact;
-        return view('update',  ['data' => $contact->find($id)]);
+        $postInfo = $this->contactRepository->getInfoFromUser($id);
+        return view('update',  ['data' => $postInfo]);
     }
 
     public function updateMessageSubmit($id, ContactRequest $req)
     {
-        
-        $contact = Contact::find($id);
+        $subject = $req->input('subject');
+        $message = $req->input('message');
 
-        $contact->subject = $req->input('subject');
-        $contact->message = $req->input('message');
-
-        $contact->save();
+        $this->contactRepository->updateMessage($subject, $message, $id);
         
         return redirect()->route('contactDataOne', $id)->with('success', 'Post was updated');
     }
 
     public function deleteMessage($id){
-        $contact = Contact::find($id);
-        $contact->delete();
+        $this->contactRepository->deleteMessage($id);
         return redirect()->route('contactData')->with('success', 'Post delete successful');
     }
 
     public function getPostByTitle(Request $req){
         $nameOfPost = $req->namePost;
-        
-        $contact = Contact::where('subject', $nameOfPost)->get();
-        
-        if ($contact->isEmpty()) {
-            return redirect()->route('contactData')->with('error', 'Posts not found');
+        $this->contactRepository->getPostByTitle($nameOfPost);
+
+        $result = $this->contactRepository->getPostByTitle($nameOfPost);
+
+        if($result->isEmpty()){
+            return redirect()->route('contactData')->with('error', 'Post not found');
         }
-        
-        return view('oneTitle', ['data' => $contact]);
+        else{
+            return view('oneTitle', ['data' => $result]);
+        }
+
+        // return view('oneTitle', ['data' => $contact]);
     }
 
     public function showHomePage()
     { 
 
-        $allPosts = Contact::where('is_posted', true)->get();
-    
-        return view('home', ['data' => $allPosts]);
+        $this->contactRepository->getPostedMessages();
+
+        $allData = $this->contactRepository->getPostedMessages();
+            
+        return view('home', ['data' => $allData]);
+
     }
+    
     public function addMessage($id){
         
         

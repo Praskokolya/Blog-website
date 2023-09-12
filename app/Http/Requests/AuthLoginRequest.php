@@ -14,8 +14,6 @@ class AuthLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname' => 'required|string|max:255|unique:registred_users,nickname',
-            'email' => 'required|email|unique:registred_users,email|max:255',
             'password' => 'required|string|min:8',
             'confirmPassword' => 'required|string|min:8|same:password',
         ];
@@ -23,8 +21,6 @@ class AuthLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'nickname.required' => 'The nickname field is required',
-            'email.required' => 'The email field is required',
             'password.required' => 'The password field is required',
             'password.min' => 'The password field must contain at least :min characters',
             'confirmPassword.required' => 'The confirm password field is required',

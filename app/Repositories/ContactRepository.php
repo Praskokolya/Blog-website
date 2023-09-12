@@ -15,4 +15,34 @@ class ContactRepository{
 
         ]);
     }
+
+    public function updateMessage($subject, $message, $id){
+        $messageForUpdate = $this->contact->find($id);
+    
+        $messageForUpdate->update([
+            'subject' => $subject,
+            'message' => $message,
+        ]);
+    }
+
+    public function getInfoFromUser($id){
+        $postInfo = $this->contact->find($id);
+        return $postInfo;
+    }
+
+    public function getPostedMessages(){
+        $allPosts = $this->contact->where('is_posted', true)->get();
+        return $allPosts;
+    }
+
+    public function deleteMessage($id){
+        $messageForDelete = $this->contact->find($id);
+        $messageForDelete->delete();
+    }
+    
+    public function getPostByTitle($nameOfPost){
+        $currentPost = $this->contact->where('subject', $nameOfPost)->get();
+        return $currentPost;
+    }
+    
 }

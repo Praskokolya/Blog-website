@@ -5,7 +5,6 @@
 @section('caption')
     {{__('messages.all_messages')}}
 @endsection
-
 @foreach ($data as $element)
 <div class="alert alert-info">
     <h3>

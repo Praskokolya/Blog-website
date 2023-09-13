@@ -2,12 +2,14 @@
 
 namespace App\Repositories;
 use App\Models\Contact;
+use App\Services\ContactService;
 class ContactRepository{
-        
+    
+
     public function __construct(){
         $this->contact = new Contact;
     }
-
+    
     public function insertMessage($subject, $message){
         $this->contact::create([
             'subject' => $subject,
@@ -43,6 +45,18 @@ class ContactRepository{
     public function getPostByTitle($nameOfPost){
         $currentPost = $this->contact->where('subject', $nameOfPost)->get();
         return $currentPost;
+    }
+    public function getPostForCheck($id){
+        $postForCheck = $this->contact->find($id)->is_posted;
+        
+        $contactRepository = new ContactRepository();
+        $contactService = new ContactService($contactRepository); 
+        
+        $contactService->checkIfExists($postForCheck, $id);
+    }
+
+    public function postMessage($postUpload, $id){
+        $this->contact->find($id)->update(['is_posted' => true]);
     }
     
 }

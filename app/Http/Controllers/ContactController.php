@@ -7,6 +7,7 @@ use App\Models\RegistredUsers;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use Exception;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
 class ContactController extends Controller
@@ -69,7 +70,7 @@ class ContactController extends Controller
         $this->contactRepository->getPostByTitle($nameOfPost);
 
         $result = $this->contactRepository->getPostByTitle($nameOfPost);
-
+        
         if($result->isEmpty()){
             return redirect()->route('contactData')->with('error', 'Post not found');
         }
@@ -77,7 +78,6 @@ class ContactController extends Controller
             return view('oneTitle', ['data' => $result]);
         }
 
-        // return view('oneTitle', ['data' => $contact]);
     }
 
     public function showHomePage()
@@ -92,17 +92,10 @@ class ContactController extends Controller
     }
     
     public function addMessage($id){
-        
-        
-        $post = Contact::find($id);
-
-        if($post->is_posted){
-            return redirect()->route('contactData')->with('error', 'You already posted it');
-        }else{
-            $post->update(['is_posted' => true]);
-        }
-        if($post->is_posted = true){
-            return redirect('/');
+        try{
+            $this->contactRepository->getPostForCheck($id);
+        } catch(Exception $e){
+            return redirect()->route('contactData')->with('error', 'Message already posted');
         }
     }
      

@@ -32,7 +32,8 @@ class ContactController extends Controller
     }
     
     public function allData(){;
-        return view('messages', ['data' => $this->contact::All()]);
+        $allMessages = $this->contactRepository->getAllMessages();
+        return view('messages', ['data' => $allMessages]);
     }
 
     public function showOneMessage($id){

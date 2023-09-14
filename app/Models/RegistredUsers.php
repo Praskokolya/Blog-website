@@ -13,6 +13,5 @@ class RegistredUsers extends Authenticatable
     protected $table = 'registred_users';
     protected $fillable = ['nickname', 'email', 'password'];
 
-    // Дополнительные методы и свойства вашей модели здесь
 }
 

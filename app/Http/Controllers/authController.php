@@ -7,8 +7,17 @@ use App\Models\RegistredUsers;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Services\AuthService;
+use App\Repositories\AuthRepository;
 class authController extends Controller
 {
+    public $authService;
+    public $authRepository;
+    public function __construct(AuthService $authService, AuthRepository $authRepository){
+        $this->authRepository = $authRepository;
+        $this->authService = $authService;
+    }
+
     public function signUpForm(){
         return view('RegComponents.signUp');
     }
@@ -19,33 +28,29 @@ class authController extends Controller
     public function login(){
         return view('RegComponents.login');
     }
-    public function createAccount(AuthLoginRequest $req){
-        $registredUser = new RegistredUsers(); 
-        $registredUser->nickname = $req->input('nickname');
-        $registredUser->email = $req->input('email');
-        $registredUser->password = bcrypt($req->input('password')); 
-        $registredUser->save();
-
-        Auth::login($registredUser);
-        return view('home', ['user' => $registredUser]);
+    public function createAccount(AuthLoginRequest $request){
+        $nickname = $request->input('nickname');
+        $email = $request->input('email');
+        $password = bcrypt($request->input('password')); 
+        $user = $this->authRepository->createNewUser($password, $nickname, $email);
+        Auth::login($user);
+        return view('home', ['user' => $user->nickname]);
     }
-    public function checkIfLog(LoginRequest $req){
-        $loggedUser = RegistredUsers::where('email', $req->email)->first();
+    public function checkIfLog(LoginRequest $request){
+        $userEmail = $request->email;
+        $loginResult = $this->authRepository->getLoggedUser($userEmail);
+        $passwordForCheck = $request->password;
+        $user = $this->authService->checkIfLogged($loginResult, $passwordForCheck, $userEmail);
     
-        if ($loggedUser) {
-            if (Hash::check($req->password, $loggedUser->password)){
-                Auth::login($loggedUser);
-                return view('home', ['user' => $loggedUser]);
-            }
-            else{
-                return redirect()->route('login')->with('error', 'Wrong password');;
-            }
+        if ($user) {
+            // Аутентификация успешна
+            return redirect()->route('home'); // Или другая логика после успешной аутентификации
+        } else {
+            // Аутентификация не удалась
+            return redirect()->route('login')->with('error', 'Wrong email or password');
         }
-         else {
-                return redirect()->route('login')->with('error', 'Email not found');
-        }
-
     }
+    
     public function logout(Request $request)
     {
         Auth::logout(); 

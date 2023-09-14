@@ -58,5 +58,8 @@ class ContactRepository{
     public function postMessage($postUpload, $id){
         $this->contact->find($id)->update(['is_posted' => true]);
     }
+    public function getAllMessages(){
+        return $this->contact->All();
+    }
     
 }

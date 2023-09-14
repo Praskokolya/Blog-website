@@ -17,7 +17,6 @@ class ContactController extends Controller
     public $contactRepository;
     public function __construct(ContactService $contactService, ContactRepository $contactRepository)
     {
-        $this->contact = new Contact;
         $this->contactRepository = $contactRepository;
         $this->contactService = $contactService;
         $this->middleware('auth')->only('allData');

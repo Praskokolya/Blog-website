@@ -14,7 +14,6 @@ class AuthService{
         if (Auth::attempt(['email' => $usersEmail, 'password' => $passwordForCheck])) {
             return true;
         } else {
-            // Пароль не совпадает
             return null;
         }
     }

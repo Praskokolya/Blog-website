@@ -33,7 +33,9 @@ class authController extends Controller
         $email = $request->input('email');
         $password = bcrypt($request->input('password')); 
         $user = $this->authRepository->createNewUser($password, $nickname, $email);
+
         Auth::login($user);
+
         return view('home', ['user' => $user->nickname]);
     }
     public function checkIfLog(LoginRequest $request){
@@ -43,10 +45,8 @@ class authController extends Controller
         $user = $this->authService->checkIfLogged($loginResult, $passwordForCheck, $userEmail);
     
         if ($user) {
-            // Аутентификация успешна
-            return redirect()->route('home'); // Или другая логика после успешной аутентификации
+            return redirect()->route('home'); 
         } else {
-            // Аутентификация не удалась
             return redirect()->route('login')->with('error', 'Wrong email or password');
         }
     }
@@ -58,7 +58,4 @@ class authController extends Controller
     
         return redirect('/'); 
     }
-    
-
-    
 }

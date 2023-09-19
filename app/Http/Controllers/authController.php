@@ -9,38 +9,49 @@ use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use App\Repositories\AuthRepository;
 
-class authController extends Controller
+class AuthController extends Controller
 {
+    /** @var AuthService */
     public $authService;
+
+    /** @var AuthRepository */
     public $authRepository;
+
+    /**
+     * AuthController constructor
+     * @param AuthService $authService
+     * @param AuthRepository $authRepository
+     */
     public function __construct(AuthService $authService, AuthRepository $authRepository)
     {
         $this->authRepository = $authRepository;
         $this->authService = $authService;
     }
-    public function signUpForm()
-    {
-        return view('RegComponents.signUp');
-    }
-    public function registration()
-    {
-        return view('RegComponents.register');
-    }
-    public function login()
-    {
-        return view('RegComponents.login');
-    }
+    /**
+     * Create a new user
+     *
+     * @param AuthLoginRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function createAccount(AuthLoginRequest $request)
     {
         $nickname = $request->input('nickname');
         $email = $request->input('email');
         $password = bcrypt($request->input('password'));
-        $user = $this->authRepository->createNewUser($password, $nickname, $email);
+        $user = $this
+            ->authRepository
+            ->createNewUser($password, $nickname, $email);
 
         Auth::login($user);
 
         return view('home', ['user' => $user->nickname]);
     }
+    /** 
+     * Check if a user logged in
+     *
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function checkIfLog(LoginRequest $request)
     {
         $userEmail = $request->email;
@@ -55,6 +66,12 @@ class authController extends Controller
         }
     }
 
+    /**
+     * Log the user out.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         Auth::logout();

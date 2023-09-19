@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Contact;
-use App\Services\ContactService;
 
 class ContactRepository
 {
@@ -45,7 +44,6 @@ class ContactRepository
         $allPosts = $this->contact->where('is_posted', true)->get();
         return $allPosts;
     }
-
     public function deleteMessage($id)
     {
         $messageForDelete = $this->contact->find($id);
@@ -60,12 +58,11 @@ class ContactRepository
     public function getPostForCheck($id)
     {
         $postForCheck = $this->contact->find($id)->is_posted;
-        if($postForCheck == false){
+        if ($postForCheck == false) {
             $this->postMessage($id);
-        }else{
+        } else {
             throw new \Exception();
         }
-        
     }
 
     public function postMessage($id)

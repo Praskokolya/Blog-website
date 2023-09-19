@@ -13,14 +13,5 @@ class ContactService{
         if($user){
             $this->contactRepository->getInfoFromUser($id);
         }
-    }
-    public function checkIfExists($postForCheck, $id){
-        if($postForCheck == false){
-            $this->contactRepository->postMessage($postForCheck, $id);
-        } else {
-            throw new \Exception(); // Генерируем исключение с сообщением
-        } 
-    }
-    
-    
+    }    
 }

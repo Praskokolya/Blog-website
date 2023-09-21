@@ -19,6 +19,7 @@ class ContactRepository
         $this->contact::create([
             'subject' => $subject,
             'message' => $message,
+            'is_posted' => true,
 
         ]);
     }
@@ -55,20 +56,10 @@ class ContactRepository
         $currentPost = $this->contact->where('subject', $nameOfPost)->get();
         return $currentPost;
     }
-    public function getPostForCheck($id)
-    {
-        $postForCheck = $this->contact->find($id)->is_posted;
-        if ($postForCheck == false) {
-            $this->postMessage($id);
-        } else {
-            throw new \Exception();
-        }
-    }
-
-    public function postMessage($id)
-    {
-        $this->contact->find($id)->update(['is_posted' => true]);
-    }
+    // public function getPostForCheck($id)
+    // {
+    //     $this->contact->find($id)->is_posted->postMessage($id);
+    // }
     public function getAllMessages()
     {
         return $this->contact->All();

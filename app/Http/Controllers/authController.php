@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use App\Repositories\AuthRepository;
-
 class AuthController extends Controller
 {
     /** @var AuthService */
@@ -55,24 +54,24 @@ class AuthController extends Controller
     public function checkIfLog(LoginRequest $request)
     {
         $userEmail = $request->email;
-        $loginResult = $this->authRepository->getLoggedUser($userEmail);
+        $this->authRepository->getLoggedUser($userEmail);
         $passwordForCheck = $request->password;
-        $user = $this->authService->checkIfLogged($loginResult, $passwordForCheck, $userEmail);
+        $user = $this->authService->checkIfLogged($passwordForCheck, $userEmail);
 
         if ($user) {
             return redirect()->route('home');
         } else {
-            return redirect()->route('login')->with('error', 'Wrong email or password');
+            return redirect('/auth/log')->with('error', 'Wrong email or password');
         }
     }
 
     /**
-     * Log the user out.
+     * Logout the user
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout(Request $request)
+    protected function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();

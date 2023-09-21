@@ -1,0 +1,10 @@
+html{
+    background-color: #f5f5dc;
+}
+.regContainer{
+    background-color: #f5f5dc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh
+}

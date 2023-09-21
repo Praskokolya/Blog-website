@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Requests;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class AuthLoginRequest extends FormRequest
@@ -16,6 +15,9 @@ class AuthLoginRequest extends FormRequest
         return [
             'password' => 'required|string|min:8',
             'confirmPassword' => 'required|string|min:8|same:password',
+            'email' => 'required|string|email|unique:registred_users,email', 
+            'nickname' => 'required|string|email|unique:registred_users,nickname', 
+
         ];
     }
     public function messages()

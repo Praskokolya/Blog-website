@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
-use Exception;
+use Illuminate\Database\QueryException;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
 
 class ContactController extends Controller
 {
     /** @var ContactService */
-    public $contactService;
+    private $contactService;
 
     /** @var ContactRepository */
     public $contactRepository;
@@ -34,14 +34,14 @@ class ContactController extends Controller
      * @method submit()
      *
      * @param ContactRequest $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function submit(ContactRequest $request)
     {
         $subject = $request->input('subject');
         $message = $request->input('message');
         $this->contactRepository->insertMessage($subject, $message);
-        return view('home');
+        return redirect('/');
     }
 
     /**
@@ -49,7 +49,7 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function allData()
+    protected function allData()
     {
         return view('messages', ['data' => $this->contactRepository->getAllMessages()]);
     }
@@ -60,7 +60,7 @@ class ContactController extends Controller
      * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showOneMessage(int $id)
+    protected function showOneMessage(int $id)
     {
         $user = Auth::user()->nickname;
         $this->contactService->transmitUserData($user, $id);
@@ -74,10 +74,10 @@ class ContactController extends Controller
      * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function updateMessage(int $id)
+    protected function updateMessage(int $id)
     {
         $postInfo = $this->contactRepository->getInfoFromUser($id);
-        return view('update',  ['data' => $postInfo]);
+        return view('update', ['data' => $postInfo]);
     }
 
     /**
@@ -87,7 +87,7 @@ class ContactController extends Controller
      * @param ContactRequest $req
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateMessageSubmit(int $id, ContactRequest $req)
+    protected function updateMessageSubmit(int $id, ContactRequest $req)
     {
         $subject = $req->input('subject');
         $message = $req->input('message');
@@ -101,7 +101,7 @@ class ContactController extends Controller
      * @param integer $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function deleteMessage(int $id)
+    protected function deleteMessage(int $id)
     {
         $this->contactRepository->deleteMessage($id);
         return redirect()->route('contactData')->with('success', 'Post delete successful');
@@ -111,9 +111,9 @@ class ContactController extends Controller
      * @method getPostByTitle()
      *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function getPostByTitle(Request $request)
+    protected function getPostByTitle(Request $request)
     {
         $result = $this->contactRepository->getPostByTitle($request->namePost);
         if ($result->isEmpty()) {
@@ -128,24 +128,8 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showHomePage()
+    protected function showHomePage()
     {
         return view('home', ['data' => $this->contactRepository->getPostedMessages()]);
-    }
-
-    /**
-     * @method addMessage()
-     *
-     * @param integer $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function addMessage(int $id)
-    {
-        try {
-            $this->contactRepository->getPostForCheck($id);
-            return redirect('/');
-        } catch (Exception $e) {
-            return redirect()->route('contactData')->with('error', 'Message already posted');
-        }
     }
 }

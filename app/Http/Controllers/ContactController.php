@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
+use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {
@@ -40,7 +40,7 @@ class ContactController extends Controller
     {
         $subject = $request->input('subject');
         $message = $request->input('message');
-        $this->contactRepository->insertMessage($subject, $message);
+        $this->contactRepository->insertMessage($subject, $message, Auth::id());
         return redirect('/');
     }
 
@@ -51,7 +51,7 @@ class ContactController extends Controller
      */
     protected function allData()
     {
-        return view('messages', ['data' => $this->contactRepository->getAllMessages()]);
+        return view('messages', ['data' => $this->contactRepository->getAllMessages(Auth::id())]);
     }
 
     /**
@@ -76,8 +76,7 @@ class ContactController extends Controller
      */
     protected function updateMessage(int $id)
     {
-        $postInfo = $this->contactRepository->getInfoFromUser($id);
-        return view('update', ['data' => $postInfo]);
+        return view('update', ['data' => $this->contactRepository->getInfoFromUser($id)]);
     }
 
     /**
@@ -115,11 +114,13 @@ class ContactController extends Controller
      */
     protected function getPostByTitle(Request $request)
     {
-        $result = $this->contactRepository->getPostByTitle($request->namePost);
-        if ($result->isEmpty()) {
+        if ($this
+        ->contactRepository
+        ->getPostByTitle($request->namePost)
+        ->isEmpty()) {
             return redirect()->route('contactData')->with('error', 'Post not found');
         } else {
-            return view('oneTitle', ['data' => $result]);
+            return view('oneTitle', ['data' => $this->contactRepository->getPostByTitle($request->namePost)]);
         }
     }
 

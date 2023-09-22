@@ -16,7 +16,7 @@ class AuthLoginRequest extends FormRequest
             'password' => 'required|string|min:8',
             'confirmPassword' => 'required|string|min:8|same:password',
             'email' => 'required|string|email|unique:registred_users,email', 
-            'nickname' => 'required|string|email|unique:registred_users,nickname', 
+            'nickname' => 'required|string|string|unique:registred_users,nickname', 
 
         ];
     }

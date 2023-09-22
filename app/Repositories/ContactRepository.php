@@ -46,7 +46,10 @@ class ContactRepository
 
     public function getPostedMessages()
     {
-        return $this->contact->where('is_posted', true)->get();
+        return $this->contact
+            ->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
+            ->where('contacts.is_posted', true)
+            ->get();
     }
     public function deleteMessage($id)
     {
@@ -66,9 +69,10 @@ class ContactRepository
 
     public function getAllMessages($id)
     {
-        return $this
-        ->contact
-        ->where('user_id', $id)
-        ->get();
+        return $this->contact
+            ->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
+            ->where('contacts.user_id', $id)
+            ->get();
     }
+    
 }

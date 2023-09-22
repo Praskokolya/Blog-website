@@ -3,65 +3,72 @@
 namespace App\Repositories;
 
 use App\Models\Contact;
-
+use App\Models\RegistredUsers;
 class ContactRepository
 {
 
     protected $contact;
 
+    protected $user;
+
     public function __construct()
     {
         $this->contact = new Contact;
+        $this->user = new RegistredUsers;
+
     }
 
-    public function insertMessage($subject, $message)
+    public function insertMessage($subject, $message, $user_id)
     {
         $this->contact::create([
             'subject' => $subject,
             'message' => $message,
-            'is_posted' => true,
-
+            'user_id' => $user_id,
+            'is_posted' => true,  
         ]);
     }
 
     public function updateMessage($subject, $message, $id)
     {
-        $messageForUpdate = $this->contact->find($id);
-
-        $messageForUpdate->update([
+        $this
+        ->contact
+        ->find($id)
+        ->update([
             'subject' => $subject,
             'message' => $message,
-        ]);
+        ]);;
     }
 
     public function getInfoFromUser($id)
     {
-        $postInfo = $this->contact->find($id);
-        return $postInfo;
+        return $this->contact->find($id);
     }
 
     public function getPostedMessages()
     {
-        $allPosts = $this->contact->where('is_posted', true)->get();
-        return $allPosts;
+        return $this->contact->where('is_posted', true)->get();
     }
     public function deleteMessage($id)
     {
-        $messageForDelete = $this->contact->find($id);
-        $messageForDelete->delete();
+        $this
+        ->contact
+        ->find($id)
+        ->delete();
     }
 
     public function getPostByTitle($nameOfPost)
     {
-        $currentPost = $this->contact->where('subject', $nameOfPost)->get();
-        return $currentPost;
+        return $this
+        ->contact
+        ->where('subject', $nameOfPost)
+        ->get();
     }
-    // public function getPostForCheck($id)
-    // {
-    //     $this->contact->find($id)->is_posted->postMessage($id);
-    // }
-    public function getAllMessages()
+
+    public function getAllMessages($id)
     {
-        return $this->contact->All();
+        return $this
+        ->contact
+        ->where('user_id', $id)
+        ->get();
     }
 }

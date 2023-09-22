@@ -41,7 +41,7 @@
                 <label for="confirmPassword" class="form-label">@lang('messages.confirm_password')</label>
                 <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="@lang('messages.confirm_password')" required>
             </div>
-            <button type="submit" class="btn btn-primary">@lang('messages.check_in')</button>
+            <button type="submit" class="btn btn-success">@lang('messages.check_in')</button>
         </form>
     </div>
 </body>

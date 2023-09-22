@@ -4,7 +4,6 @@
 
 @section('content')
     <h1>{{__('messages.main_page')}} </h1>
-    <p>{{__('messages.our_website')}}</p>
     <h3>{{__('messages.posts_list')}}</h3>
     <div class="cardsWithPosts">
         @if (isset($data) && $data->count() == 0)

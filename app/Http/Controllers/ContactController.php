@@ -7,7 +7,6 @@ use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
-use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {
@@ -45,7 +44,6 @@ class ContactController extends Controller
     }
 
     /**
-     * @method allData
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -55,7 +53,6 @@ class ContactController extends Controller
     }
 
     /**
-     * @method showOneMessage
      *
      * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

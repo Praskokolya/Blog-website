@@ -27,8 +27,7 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
     /**
-     * Create a new user
-     *
+     *    
      * @param AuthLoginRequest $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -46,17 +45,13 @@ class AuthController extends Controller
         return view('home', ['user' => $user->nickname]);
     }
     /** 
-     * Check if a user logged in
-     *
      * @param LoginRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function checkIfLog(LoginRequest $request)
     {
-        $userEmail = $request->email;
-        $this->authRepository->getLoggedUser($userEmail);
-        $passwordForCheck = $request->password;
-        $user = $this->authService->checkIfLogged($passwordForCheck, $userEmail);
+        $this->authRepository->getLoggedUser($request->email);
+        $user = $this->authService->checkIfLogged($request->password, $request->email);
 
         if ($user) {
             return redirect()->route('home');
@@ -66,7 +61,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Logout the user
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse

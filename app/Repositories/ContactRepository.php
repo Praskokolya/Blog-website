@@ -4,46 +4,74 @@ namespace App\Repositories;
 
 use App\Models\Contact;
 use App\Models\RegistredUsers;
+
+/**
+ * Class ContactRepository
+ * @package App\Repositories
+ */
 class ContactRepository
 {
-
     protected $contact;
-
     protected $user;
 
-    public function __construct()
+    /**
+     * ContactRepository constructor
+     */
+    public function __construct(Contact $contact, RegistredUsers $user)
     {
-        $this->contact = new Contact;
-        $this->user = new RegistredUsers;
-
+        $this->contact = $contact;
+        $this->user = $user;
     }
 
-    public function insertMessage($subject, $message, $user_id)
+    /**
+     * @param string $subject
+     * @param string $message
+     * @param integer $user_id
+     * @return void
+     */
+    public function insertMessage(string $subject, string $message, int $user_id)
     {
         $this->contact::create([
             'subject' => $subject,
             'message' => $message,
             'user_id' => $user_id,
-            'is_posted' => true,  
+            'is_posted' => true,
         ]);
     }
 
-    public function updateMessage($subject, $message, $id)
+    /**
+     *
+     * @param string $subject
+     * @param string $message
+     * @param integer $id
+     * @return void
+     */
+
+    public function updateMessage(string $subject, string $message, int $id)
     {
         $this
-        ->contact
-        ->find($id)
-        ->update([
-            'subject' => $subject,
-            'message' => $message,
-        ]);;
+            ->contact
+            ->find($id)
+            ->update([
+                'subject' => $subject,
+                'message' => $message,
+            ]);
     }
 
-    public function getInfoFromUser($id)
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function getInfoFromUser(int $id)
     {
-        return $this->contact->find($id);
+        return $this
+            ->contact
+            ->find($id);
     }
 
+    /**
+     * @return mixed
+     */
     public function getPostedMessages()
     {
         return $this->contact
@@ -51,28 +79,39 @@ class ContactRepository
             ->where('contacts.is_posted', true)
             ->get();
     }
-    public function deleteMessage($id)
+
+    /**
+     * @param integer $id
+     */
+    public function deleteMessage(int $id)
     {
         $this
-        ->contact
-        ->find($id)
-        ->delete();
+            ->contact
+            ->find($id)
+            ->delete();
     }
 
-    public function getPostByTitle($nameOfPost)
+    /**
+     * @param string $nameOfPost
+     * @return mixed
+     */
+    public function getPostByTitle(string $nameOfPost)
     {
         return $this
-        ->contact
-        ->where('subject', $nameOfPost)
-        ->get();
+            ->contact
+            ->where('subject', $nameOfPost)
+            ->get();
     }
 
-    public function getAllMessages($id)
+    /**
+     * @param integer $id
+     * @return mixed
+     */
+    public function getAllMessages(int $id)
     {
         return $this->contact
             ->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
             ->where('contacts.user_id', $id)
             ->get();
     }
-    
 }

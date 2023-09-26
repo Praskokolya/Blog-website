@@ -45,7 +45,6 @@ class ContactController extends Controller
     }
 
     /**
-     * @method allData
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -55,7 +54,6 @@ class ContactController extends Controller
     }
 
     /**
-     * @method showOneMessage
      *
      * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

@@ -7,6 +7,7 @@ use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
+use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {

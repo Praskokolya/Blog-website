@@ -1,59 +1,81 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AuthLoginRequest;
-use App\Models\RegistredUsers;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Hash;
-class authController extends Controller
+use App\Services\AuthService;
+use App\Repositories\AuthRepository;
+class AuthController extends Controller
 {
-    public function signUpForm(){
-        return view('RegComponents.signUp');
-    }
+    /** @var AuthService */
+    public $authService;
 
-    public function registration(){
-        return view('RegComponents.register');
-    }
-    public function login(){
-        return view('RegComponents.login');
-    }
-    public function createAccount(AuthLoginRequest $req){
-        $registredUser = new RegistredUsers(); 
-        $registredUser->nickname = $req->input('nickname');
-        $registredUser->email = $req->input('email');
-        $registredUser->password = bcrypt($req->input('password')); 
-        $registredUser->save();
+    /** @var AuthRepository */
+    public $authRepository;
 
-        Auth::login($registredUser);
-        return view('home', ['user' => $registredUser]);
-    }
-    public function checkIfLog(LoginRequest $req){
-        $loggedUser = RegistredUsers::where('email', $req->email)->first();
-    
-        if ($loggedUser) {
-            if (Hash::check($req->password, $loggedUser->password)){
-                Auth::login($loggedUser);
-                return view('home', ['user' => $loggedUser]);
-            }
-            else{
-                return redirect()->route('login')->with('error', 'Wrong password');;
-            }
-        }
-         else {
-                return redirect()->route('login')->with('error', 'Email not found');
-        }
-
-    }
-    public function logout(Request $request)
+    /**
+     * AuthController constructor
+     * @param AuthService $authService
+     * @param AuthRepository $authRepository
+     */
+    public function __construct(AuthService $authService, AuthRepository $authRepository)
     {
-        Auth::logout(); 
-        $request->session()->invalidate(); 
-    
-        return redirect('/'); 
+        $this->authRepository = $authRepository;
+        $this->authService = $authService;
     }
-    
+    /**
+     * Create a new user
+     *
+     * @param AuthLoginRequest $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function createAccount(AuthLoginRequest $request)
+    {
+        $nickname = $request->input('nickname');
+        $email = $request->input('email');
+        $password = bcrypt($request->input('password'));
+        $user = $this
+            ->authRepository
+            ->createNewUser($password, $nickname, $email);
 
-    
+        Auth::login($user);
+
+        return view('home', ['user' => $user->nickname]);
+    }
+    /** 
+     * Check if a user logged in
+     *
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function checkIfLog(LoginRequest $request)
+    {
+        $userEmail = $request->email;
+        $this->authRepository->getLoggedUser($userEmail);
+        $passwordForCheck = $request->password;
+        $user = $this->authService->checkIfLogged($passwordForCheck, $userEmail);
+
+        if ($user) {
+            return redirect()->route('home');
+        } else {
+            return redirect('/auth/log')->with('error', 'Wrong email or password');
+        }
+    }
+
+    /**
+     * Logout the user
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+
+        return redirect('/');
+    }
 }

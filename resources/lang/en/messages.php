@@ -35,4 +35,9 @@ return [
      Simply create an account, write your post and share it with the world.
      You have a voice - let it be heard!',
      'posts_list' => 'Posts list',
+    'enter_password' => 'Enter your password',
+    'confirm_password' => 'Confirm your password',
+    'check_in' => 'Check in'
+
+
 ];

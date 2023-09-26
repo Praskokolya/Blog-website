@@ -10,14 +10,6 @@
 <form action="{{ route('contactUpdateSubmit', $data->id) }}" method="post">
     @csrf
     <div class="form-group">
-        <label for="name">{{ __('messages.your_name') }}</label>
-        <input type="text" name="name" placeholder="{{ __('messages.enter_your_name') }}" id="name" class="form-control" value="{{ auth()->user()->nickname }}" readonly>
-    </div>
-    <div class="form-group">
-        <label for="email">{{ __('messages.your_email') }}</label>
-        <input type="text" name="email" placeholder="{{ __('messages.enter_your_email') }}" id="email" class="form-control" value="{{ auth()->user()->email }}" readonly>
-    </div>
-    <div class="form-group">
         <label for="subject">{{ __('messages.post_subject') }}</label>
         <input type="subject" name="subject" value="{{ $data->subject }}" placeholder="{{ __('messages.post_subject') }}" id="subject" class="form-control">
     </div>

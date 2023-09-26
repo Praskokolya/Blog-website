@@ -10,14 +10,6 @@
 <form action="{{ route('contact-form') }}" method="post">
     @csrf
     <div class="form-group">
-        <label for="name">@lang('messages.your_name')</label>
-        <input type="text" name="name" placeholder="@lang('messages.enter_your_name')" id="name" class="form-control" value="{{ auth()->user()->nickname}}" readonly>
-    </div>
-    <div class="form-group">
-        <label for="email">@lang('messages.your_email')</label>
-        <input type="text" name="email" placeholder="@lang('messages.enter_your_email')" id="email" class="form-control" value="{{ auth()->user()->email }}" readonly>
-    </div>
-    <div class="form-group">
         <label for="subject">@lang('messages.post_subject')</label>
         <input type="text" name="subject" placeholder="@lang('messages.post_subject')" id="subject" class="form-control">
     </div>

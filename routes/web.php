@@ -1,7 +1,6 @@
 <?php
 use App\Http\Controllers\MyTestController;
 use Illuminate\Support\Facades\Route;
-Auth::routes();
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,11 +37,21 @@ Route::middleware('set_locale')->group(function(){
     
     Route::post('/contact/getPost', 'App\Http\Controllers\ContactController@getPostByTitle')->name('getPost');
     
-    Route::get('/auth', 'App\Http\Controllers\authController@signUpForm')->name('authForm');
+    Route::get('/auth', function()
+    {
+        return view('RegComponents.signUp');
+    })->name('authForm');
     
-    Route::get('/auth/reg', 'App\Http\Controllers\authController@registration')->name('regForm');
+    Route::get('/auth/reg', function()
+    {
+        return view('RegComponents.register');
+    })->name('regForm');
     
-    Route::get('/auth/log', 'App\Http\Controllers\authController@login')->name('login');
+    Route::get('/auth/log', function()
+    {
+        return view('RegComponents.login');
+    }
+    )->name('login');
     
     Route::get('/auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
     

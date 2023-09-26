@@ -1,0 +1,10 @@
+html{
+    background-color: rgb(232, 252, 245);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70vh
+}
+body{
+    background-color: rgb(232, 252, 245);
+}

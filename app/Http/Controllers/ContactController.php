@@ -1,112 +1,136 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth;
 
-use App\Models\RegistredUsers;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Http\Request;
-use App\Models\Contact;
-use App\Models\posts;
+use App\Services\ContactService;
+use App\Repositories\ContactRepository;
+use Illuminate\Support\Facades\Session;
+
 class ContactController extends Controller
-
-
-
 {
-    public function __construct()
+    /** @var ContactService */
+    private $contactService;
+
+    /** @var ContactRepository */
+    public $contactRepository;
+
+    /**
+     * ContactController constructor
+     *
+     * @param ContactService $contactService
+     * @param ContactRepository $contactRepository
+     */
+    public function __construct(ContactService $contactService, ContactRepository $contactRepository)
     {
+        $this->contactRepository = $contactRepository;
+        $this->contactService = $contactService;
         $this->middleware('auth')->only('allData');
     }
-    
 
-    public function submit(ContactRequest $req)
-
+    /**
+     * @method submit()
+     *
+     * @param ContactRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function submit(ContactRequest $request)
     {
-        $contact = new Contact();
-        $contact->subject = $req->input('subject');
-        $contact->message = $req->input('message');
-        
-        $contact->save();
-        
-        return view('home');
-
-    }
-    
-    public function allData(){;
-        $this->middleware('auth');
-        $contact = new Contact;
-        return view('messages', ['data' => Contact::All()]);
+        $subject = $request->input('subject');
+        $message = $request->input('message');
+        $this->contactRepository->insertMessage($subject, $message, Auth::id());
+        return redirect('/');
     }
 
-    public function showOneMessage($id){
-        $contact = new Contact;
-        $user = Auth::user();
-
-            $login = $user->nickname;
-            $email = $user->email;
-            $contact = new Contact;
-
-            return view('oneMessage', ['data' => $contact->find($id), 'name' => $login, 'email' => $email]);
-
-    }
-
-    public function updateMessage($id){
-        $contact = new Contact;
-        return view('update',  ['data' => $contact->find($id)]);
-    }
-
-    public function updateMessageSubmit($id, ContactRequest $req)
+    /**
+     * @method allData
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function allData()
     {
-        
-        $contact = Contact::find($id);
+        return view('messages', ['data' => $this->contactRepository->getAllMessages(Auth::id())]);
+    }
 
-        $contact->subject = $req->input('subject');
-        $contact->message = $req->input('message');
+    /**
+     * @method showOneMessage
+     *
+     * @param integer $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function showOneMessage(int $id)
+    {
+        $user = Auth::user()->nickname;
+        $this->contactService->transmitUserData($user, $id);
+        $postInfo = $this->contactRepository->getInfoFromUser($id);
+        return view('OneMessage', ['data' => $postInfo, 'name' => $user]);
+    }
 
-        $contact->save();
-        
+    /**
+     * @method updateMessage
+     *
+     * @param integer $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function updateMessage(int $id)
+    {
+        return view('update', ['data' => $this->contactRepository->getInfoFromUser($id)]);
+    }
+
+    /**
+     * @method updateMessageSubmit()
+     *
+     * @param integer $id
+     * @param ContactRequest $req
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function updateMessageSubmit(int $id, ContactRequest $req)
+    {
+        $subject = $req->input('subject');
+        $message = $req->input('message');
+        $this->contactRepository->updateMessage($subject, $message, $id);
         return redirect()->route('contactDataOne', $id)->with('success', 'Post was updated');
     }
 
-    public function deleteMessage($id){
-        $contact = Contact::find($id);
-        $contact->delete();
+    /**
+     * @method deleteMessage()
+     *
+     * @param integer $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function deleteMessage(int $id)
+    {
+        $this->contactRepository->deleteMessage($id);
         return redirect()->route('contactData')->with('success', 'Post delete successful');
     }
 
-    public function getPostByTitle(Request $req){
-        $nameOfPost = $req->namePost;
-        
-        $contact = Contact::where('subject', $nameOfPost)->get();
-        
-        if ($contact->isEmpty()) {
-            return redirect()->route('contactData')->with('error', 'Posts not found');
-        }
-        
-        return view('oneTitle', ['data' => $contact]);
-    }
-
-    public function showHomePage()
+    /**
+     * @method getPostByTitle()
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    protected function getPostByTitle(Request $request)
     {
-        
-        $allPosts = Contact::where('is_posted', true)->get();
-    
-        return view('home', ['data' => $allPosts]);
+        if ($this
+        ->contactRepository
+        ->getPostByTitle($request->namePost)
+        ->isEmpty()) {
+            return redirect()->route('contactData')->with('error', 'Post not found');
+        } else {
+            return view('oneTitle', ['data' => $this->contactRepository->getPostByTitle($request->namePost)]);
+        }
     }
-    public function addMessage($id){
-        
-        
-        $post = Contact::find($id);
 
-        if($post->is_posted){
-            return redirect()->route('contactData')->with('error', 'You already posted it');
-        }else{
-            $post->update(['is_posted' => true]);
-        }
-        if($post->is_posted = true){
-            return redirect('/');
-        }
+    /**
+     * @method showHomePage
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function showHomePage()
+    {
+        return view('home', ['data' => $this->contactRepository->getPostedMessages()]);
     }
-     
-    
 }

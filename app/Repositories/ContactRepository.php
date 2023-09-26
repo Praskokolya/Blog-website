@@ -17,10 +17,10 @@ class ContactRepository
     /**
      * ContactRepository constructor
      */
-    public function __construct()
+    public function __construct(Contact $contact, RegistredUsers $user)
     {
-        $this->contact = new Contact;
-        $this->user = new RegistredUsers;
+        $this->contact = $contact;
+        $this->user = $user;
     }
 
     /**
@@ -45,7 +45,8 @@ class ContactRepository
      * @param string $message
      * @param integer $id
      * @return void
-     */    
+     */
+
     public function updateMessage(string $subject, string $message, int $id)
     {
         $this

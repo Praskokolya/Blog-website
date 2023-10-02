@@ -15,10 +15,10 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->integer('idPost');
-            $table->string('subject'); // Строковое поле для темы
-            $table->text('message'); // Текстовое поле для сообщения
-            $table->string('email'); // Строковое поле для email
-            $table->timestamps(); // Поля для created_at и updated_at
+            $table->string('subject');
+            $table->text('message');
+            $table->string('email'); 
+            $table->timestamps();
         });
 
     }

@@ -60,4 +60,7 @@ Route::middleware('set_locale')->group(function(){
     Route::get('/auth/logout', 'App\Http\Controllers\authController@logout')->name('logoutAccount');
     
     Route::get('/change_language/{locale}', 'App\Http\Controllers\LanguageController@changeLanguage')->name('changeLanguage');
+
+    Route::get('send/posts', 'App\Http\Controllers\SendExcelController@send')->name('sendExcel');
+
 });

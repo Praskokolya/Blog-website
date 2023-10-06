@@ -53,7 +53,7 @@ Route::middleware('set_locale')->group(function(){
     }
     )->name('login');
     
-    Route::get('/auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
+    Route::post('/auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
     
     Route::post('/auth/log/done', 'App\Http\Controllers\authController@checkIfLog')->name('logAccount');
     
@@ -62,5 +62,5 @@ Route::middleware('set_locale')->group(function(){
     Route::get('/change_language/{locale}', 'App\Http\Controllers\LanguageController@changeLanguage')->name('changeLanguage');
 
     Route::get('send/posts', 'App\Http\Controllers\SendExcelController@send')->name('sendExcel');
-
+    
 });

@@ -1,15 +1,15 @@
 <?php
+
 namespace App\Http\Controllers;
-use Exception;
-use App\Jobs\SendExcelJob;
+
+use App\Jobs\SendExcel;
+
 class SendExcelController extends Controller
 {
-    public function send(){
-        try{
-            SendExcelJob::dispatch();
-            return redirect()->back();
-        }catch(Exception $e){
-            dd('1232');
-        }
+    public function send()
+    {
+        $sendExcel = app(SendExcel::class);
+        dispatch($sendExcel);
+        return redirect()->back();
     }
 }

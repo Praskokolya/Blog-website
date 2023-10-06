@@ -60,8 +60,13 @@ class ContactController extends Controller
     protected function showOneMessage(int $id)
     {
         $user = Auth::user()->nickname;
-        $this->contactService->transmitUserData($user, $id);
-        $postInfo = $this->contactRepository->getInfoFromUser($id);
+        $this
+        ->contactService
+        ->transmitUserData($user, $id);
+        
+        $postInfo = $this
+        ->contactRepository
+        ->getInfoFromUser($id);
         return view('OneMessage', ['data' => $postInfo, 'name' => $user]);
     }
 
@@ -87,8 +92,13 @@ class ContactController extends Controller
     {
         $subject = $req->input('subject');
         $message = $req->input('message');
-        $this->contactRepository->updateMessage($subject, $message, $id);
-        return redirect()->route('contactDataOne', $id)->with('success', 'Post was updated');
+        
+        $this->contactRepository
+        ->updateMessage($subject, $message, $id);
+        
+        return redirect()
+        ->route('contactDataOne', $id)
+        ->with('success', 'Post was updated');
     }
 
     /**

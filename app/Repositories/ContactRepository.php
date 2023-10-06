@@ -31,7 +31,7 @@ class ContactRepository
      */
     public function insertMessage(string $subject, string $message, int $user_id)
     {
-        $this->contact::create([
+        $this->contact->create([
             'subject' => $subject,
             'message' => $message,
             'user_id' => $user_id,

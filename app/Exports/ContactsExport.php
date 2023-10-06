@@ -3,23 +3,47 @@
 namespace App\Exports;
 
 use App\Models\Contact;
-use App\Models\RegistredUsers;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
-use PhpOffice\PhpSpreadsheet\Reader\Xml\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ContactsExport implements FromCollection
+class ContactsExport implements FromCollection, WithHeadings
 {
+    /**
+     * @var @contact
+     */
+    public $contact; 
+    /**
+     * ContactsExport constructor
+     *
+     * @param Contact $contact
+     */
+    public function __construct(Contact $contact){
+        $this->contact = $contact;
+    }
     /**
     * @return \Illuminate\Support\Collection
     */
+    
     public function collection()
     {
-        $contact = new Contact;
         
-        return $contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
+        return $this->contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
         ->select('contacts.message', 'contacts.subject', 'registred_users.email', 'registred_users.nickname')
-        ->get()->prepend(['Message', 'Subject', 'Email', 'Nickname'], null);
+        ->get();
+
     }
+    /**
+     * @return array
+     */
+    public function headings(): array
+    {
+        return [
+            'Message',
+            'Subject',
+            'Email',
+            'Nickname',
+        ];
+    }
+
 }

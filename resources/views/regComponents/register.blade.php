@@ -23,7 +23,7 @@
             </div>
         @endif
     
-        <form action="{{ route('registerAccount') }}" method="GET">
+        <form action="{{ route('registerAccount') }}" method="post">
             @csrf
             <div class="mb-3">
                 <label for="username" class="form-label">@lang('messages.your_name')</label>

@@ -46,11 +46,10 @@ return [
     |                    "custom", "stack"
     |
     */
-
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single', 'database'],
             'ignore_exceptions' => false,
         ],
 
@@ -113,6 +112,7 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+ 
     ],
 
 ];

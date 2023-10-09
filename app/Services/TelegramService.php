@@ -7,15 +7,16 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
-class SendExcelService
+class TelegramService
 {
-    public function sendFileBot()
+    public function sendFileToTelegram($path)
     {
         try {
             $chatId = Config::get('telegram.chat_id');
             $token = Config::get('telegram.api_key');
-            $url = Config::get('telegram.api_url');
+            $url = Config::get('telsegram.api_url');
             $client = new Client();
             $client->request('POST', "$url$token/sendDocument", [
                 'multipart' => [
@@ -25,7 +26,7 @@ class SendExcelService
                     ],
                     [
                         'name' => 'document',
-                        'contents' => Storage::get('public/excel-files/messages.xlsx'),
+                        'contents' => Storage::get($path),
                         'filename' => 'messages.xlsx',
                     ],
                     [
@@ -35,10 +36,8 @@ class SendExcelService
                 ],
 
             ]);
-        } catch (Exception $error) {
-            Log::channel('slack')->error('error', [
-                'error' => $error
-            ]);
+        } catch (Throwable $error) {
+            Log::channel('slack')->critical('error', ['error' => $error]);
         }
     }
 }

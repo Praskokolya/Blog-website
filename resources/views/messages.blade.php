@@ -14,8 +14,9 @@
     <p><small>{{ $element->created_at}}</small></p>
     <a href="{{ route('contactDataOne', $element->id)}}"><button class="btn btn-warning">{{__('messages.more')}}</button></a>
 </div>
-
 @endforeach
+
+    
 @if(session('success'))
 <div class="alert alert-success">
     {{ session('success') }}

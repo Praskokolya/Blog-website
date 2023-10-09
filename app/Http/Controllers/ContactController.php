@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContactRequest;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
@@ -49,7 +50,8 @@ class ContactController extends Controller
      */
     protected function allData()
     {
-        return view('messages', ['data' => $this->contactRepository->getAllMessages(Auth::id())]);
+        $allPosts = Contact::find($this->contactRepository->getAllMessages(Auth::id()));
+        return view('messages', ['data' => $allPosts]);
     }
 
     /**
@@ -61,12 +63,12 @@ class ContactController extends Controller
     {
         $user = Auth::user()->nickname;
         $this
-        ->contactService
-        ->transmitUserData($user, $id);
-        
+            ->contactService
+            ->transmitUserData($user, $id);
+
         $postInfo = $this
-        ->contactRepository
-        ->getInfoFromUser($id);
+            ->contactRepository
+            ->getInfoFromUser($id);
         return view('OneMessage', ['data' => $postInfo, 'name' => $user]);
     }
 
@@ -92,13 +94,13 @@ class ContactController extends Controller
     {
         $subject = $req->input('subject');
         $message = $req->input('message');
-        
+
         $this->contactRepository
-        ->updateMessage($subject, $message, $id);
-        
+            ->updateMessage($subject, $message, $id);
+
         return redirect()
-        ->route('contactDataOne', $id)
-        ->with('success', 'Post was updated');
+            ->route('contactDataOne', $id)
+            ->with('success', 'Post was updated');
     }
 
     /**
@@ -109,7 +111,8 @@ class ContactController extends Controller
      */
     protected function deleteMessage(int $id)
     {
-        $this->contactRepository->deleteMessage($id);
+        $this->contactRepository
+            ->deleteMessage($id);
         return redirect()->route('contactData')->with('success', 'Post delete successful');
     }
 
@@ -122,9 +125,10 @@ class ContactController extends Controller
     protected function getPostByTitle(Request $request)
     {
         if ($this
-        ->contactRepository
-        ->getPostByTitle($request->namePost)
-        ->isEmpty()) {
+            ->contactRepository
+            ->getPostByTitle($request->namePost)
+            ->isEmpty()
+        ) {
             return redirect()->route('contactData')->with('error', 'Post not found');
         } else {
             return view('oneTitle', ['data' => $this->contactRepository->getPostByTitle($request->namePost)]);

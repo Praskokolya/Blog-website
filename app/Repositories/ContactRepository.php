@@ -74,10 +74,7 @@ class ContactRepository
      */
     public function getPostedMessages()
     {
-        return $this->contact
-            ->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
-            ->where('contacts.is_posted', true)
-            ->get();
+        return $this->contact::all();
     }
 
     /**
@@ -86,8 +83,7 @@ class ContactRepository
     public function deleteMessage(int $id)
     {
         $this
-            ->contact
-            ->find($id)
+            ->contact::find($id)
             ->delete();
     }
 
@@ -98,8 +94,7 @@ class ContactRepository
     public function getPostByTitle(string $nameOfPost)
     {
         return $this
-            ->contact
-            ->where('subject', $nameOfPost)
+            ->contact::where('subject', $nameOfPost)
             ->get();
     }
 
@@ -107,11 +102,10 @@ class ContactRepository
      * @param integer $id
      * @return mixed
      */
-    public function getAllMessages(int $id)
+    public function getAllMessages($id)
     {
-        return $this->contact
-            ->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
-            ->where('contacts.user_id', $id)
-            ->get();
+        return $this->contact::with('RegistredUsers')
+            ->where('user_id', $id)
+            ->pluck('id');
     }
 }

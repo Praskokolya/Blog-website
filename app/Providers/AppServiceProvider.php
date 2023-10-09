@@ -15,10 +15,7 @@ class AppServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
-        $this->app->bind(ContactsExport::class, function ($app) {
-            return new ContactsExport($app->make(Contact::class));
-        });    
+    { 
     }
 
     /**

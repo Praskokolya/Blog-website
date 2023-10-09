@@ -28,9 +28,8 @@ class ContactsExport implements FromCollection, WithHeadings
     public function collection()
     {
         
-        return $this->contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
-        ->select('contacts.message', 'contacts.subject', 'registred_users.email', 'registred_users.nickname')
-        ->get();
+        return $this->contact->registredUser->email;
+
 
     }
     /**

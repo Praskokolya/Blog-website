@@ -30,23 +30,36 @@ class SendExcel implements ShouldQueue
      * @param TelegramService $sendExcelService
      * @param FileService $fileService
      */
-    public function __construct(ContactsExport $contactsExport, TelegramService $sendExcelService, FileService $fileService )
-    {
-        $this->contactsExport = $contactsExport;
-        $this->sendExcelService = $sendExcelService;
-        $this->fileService = $fileService;
-    }
 
     /** Execute the job.
      *
      * @return void
      */
-    const PATH = 'public/excel-files/messages.xlsx';
-    public function handle()
+    /**
+     * const PATH
+     * just path to excel files folder
+     */
+    const PATH = "public/excel-files";
+    /**
+     * @param ContactsExport $contactsExport
+     * @param TelegramService $sendExcelService
+     * @param FileService $fileService
+     * @return void
+     */
+    public function handle(ContactsExport $contactsExport, TelegramService $sendExcelService, FileService $fileService)
     {
+        $date = now()->format('Y-m-d');
+        $prefix = self::PATH . '/' . $date;
+
+        $this->contactsExport = $contactsExport;
+        $this->sendExcelService = $sendExcelService;
+        $this->fileService = $fileService;
+
         try {
-            $this->fileService->saveFile($this->contactsExport, self::PATH);
-            $this->sendExcelService->sendFileToTelegram(self::PATH);
+            $this->fileService
+                ->saveFile($this->contactsExport, $prefix);
+            $this->sendExcelService
+                ->sendFileToTelegram($prefix);
         } catch (Throwable $error) {
             Log::channel('slack')->critical('error', ['error' => $error]);
         }

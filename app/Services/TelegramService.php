@@ -11,12 +11,16 @@ use Throwable;
 
 class TelegramService
 {
-    public function sendFileToTelegram($path)
+    /**
+     * @param string $path
+     * @return void
+     */
+    public function sendFileToTelegram($prefixToPath)
     {
         try {
             $chatId = Config::get('telegram.chat_id');
             $token = Config::get('telegram.api_key');
-            $url = Config::get('telsegram.api_url');
+            $url = Config::get('telegram.api_url');
             $client = new Client();
             $client->request('POST', "$url$token/sendDocument", [
                 'multipart' => [
@@ -26,8 +30,8 @@ class TelegramService
                     ],
                     [
                         'name' => 'document',
-                        'contents' => Storage::get($path),
-                        'filename' => 'messages.xlsx',
+                        'contents' => Storage::get($prefixToPath.'messages.xlsx'),
+                        'filename' => $prefixToPath.'messages.xlsx',
                     ],
                     [
                         'name' => 'caption',

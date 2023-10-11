@@ -131,7 +131,7 @@ class ContactController extends Controller
         ) {
             return redirect()->route('contactData')->with('error', 'Post not found');
         } else {
-            return view('oneTitle', ['data' => $this->contactRepository->getPostByTitle($request->namePost)]);
+            return view('messages', ['data' => $this->contactRepository->getPostByTitle($request->namePost)]);
         }
     }
 

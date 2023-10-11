@@ -5,6 +5,7 @@
 @section('caption')
     {{__('messages.all_messages')}}
 @endsection
+<a href='{{route("sendUserExcel")}}'><button type="button" class="btn btn-success">Send in excel format</button></a>
 @foreach ($data as $element)
 <div class="alert alert-info">
     <h3>

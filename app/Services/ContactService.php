@@ -2,7 +2,6 @@
 
 namespace App\Services;
 use App\Repositories\ContactRepository;
-use Exception;
 class ContactService{
     protected $contactRepository;
     public function __construct(ContactRepository $contactRepository){

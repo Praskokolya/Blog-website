@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Exports\AllPostsExport;
 use App\Services\FileService;
 use App\Services\TelegramService;
 use Illuminate\Bus\Queueable;
@@ -41,12 +42,12 @@ class SendExcel implements ShouldQueue
      */
     const PATH = "public/excel-files";
     /**
-     * @param ContactsExport $contactsExport
+     * @param $AllPostsExport
      * @param TelegramService $sendExcelService
      * @param FileService $fileService
      * @return void
      */
-    public function handle(ContactsExport $contactsExport, TelegramService $sendExcelService, FileService $fileService)
+    public function handle(AllPostsExport $contactsExport, TelegramService $sendExcelService, FileService $fileService)
     {
         $date = now()->format('Y-m-d');
         $prefix = self::PATH . '/' . $date;
@@ -57,7 +58,7 @@ class SendExcel implements ShouldQueue
 
         try {
             $this->fileService
-                ->saveFile($this->contactsExport, $prefix);
+                ->saveAllPosts($this->contactsExport, $prefix);
             $this->sendExcelService
                 ->sendFileToTelegram($prefix);
         } catch (Throwable $error) {

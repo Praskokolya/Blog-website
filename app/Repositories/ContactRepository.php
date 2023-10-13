@@ -89,13 +89,13 @@ class ContactRepository
 
     /**
      * @param string $nameOfPost
+     * @param integer $id
      * @return mixed
      */
-    public function getPostByTitle(string $nameOfPost)
+    public function getPostByTitle(string $nameOfPost, int $id)
     {
-        return $this
-            ->contact::where('subject', $nameOfPost)
-            ->get();
+        return Contact::where('user_id', $id)
+            ->where('subject',$nameOfPost)->get();
     }
 
     /**
@@ -107,5 +107,9 @@ class ContactRepository
         return $this->contact::with('RegistredUsers')
             ->where('user_id', $id)
             ->pluck('id');
+    }
+
+    public function getUserMessages($id)
+    {
     }
 }

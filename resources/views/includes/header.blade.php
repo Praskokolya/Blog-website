@@ -16,6 +16,8 @@
         <div class="mr-1"><a class="btn btn-outline-primary"
                 href="{{ route('authForm') }}">{{ __('messages.sign_up') }}</a></div>
     @endif
-    <a href="{{ route('changeLanguage', __('messages.set_lang')) }}">{{ __('messages.set_lang') }}</a>
-
+    <a href="{{ route('changeLanguage', __('messages.set_lang')) }}">
+        @method('patch')
+        {{ __('messages.set_lang') }}
+    </a>
 </div>

@@ -22,10 +22,10 @@
                 @yield('content')
             </div>
             <div class="col-4">
-                @if(Request::is('message/all'))
+                @if(Request::is('posts'))
                    @include('includes.findPost')
                 @endif
-                @if(Request::is('contact/getPost'))
+                @if(Request::is('contact/post'))
                    @include('includes.findPost')
                 @endif
             </div>

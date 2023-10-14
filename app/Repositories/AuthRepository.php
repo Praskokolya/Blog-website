@@ -44,8 +44,7 @@ class AuthRepository
      */
     public function getLoggedUser(string $usersEmail)
     {
-        if ($emailForCheck = $this
-            ->users
+        if ($emailForCheck = $this->users
             ->where('email', $usersEmail)->first()
         ) {
             return $emailForCheck->password;       

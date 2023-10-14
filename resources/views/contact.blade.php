@@ -7,7 +7,7 @@
 @section('content')
 <h1>@lang('messages.contact_page')</h1>
 
-<form action="{{ route('contact-form') }}" method="post">
+<form action="{{ route('contact-form') }}" method="POST">
     @csrf
     <div class="form-group">
         <label for="subject">@lang('messages.post_subject')</label>

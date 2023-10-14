@@ -5,11 +5,13 @@
 @section('content')
     <h1>{{__('messages.main_page')}} </h1>
     <h3>{{__('messages.posts_list')}}</h3>
+    <a href='{{route("sendExcel")}}'><button type="button" class="btn btn-primary">Send in excel format</button></a>
+
     <div class="cardsWithPosts">
         @if (isset($data) && $data->count() == 0)
         <p>There are no posts yet.</p>
     @elseif (isset($data))
-        <div class="row">
+        <div class="row mt-2">
             @foreach ($data as $post)
             @if (is_object($post))
             <div class="col-md-4">
@@ -27,4 +29,4 @@
         </div>
     @endif
     </div>
-@endsection
+    @endsection

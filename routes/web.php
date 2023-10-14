@@ -25,17 +25,17 @@ Route::middleware('set_locale')->group(function(){
     Route::get('/contact', function(){
         return view('contact');
     })->name('contact')->middleware('auth');
-    Route::get("/contact/all", 'App\Http\Controllers\ContactController@allData')->name('contactData');
+    Route::get("/message/all", 'App\Http\Controllers\ContactController@allData')->name('contactData');
     
-    Route::get("/contact/all/{id}", 'App\Http\Controllers\ContactController@ShowOneMessage')->name('contactDataOne');
+    Route::get("/message/{id}", 'App\Http\Controllers\ContactController@ShowOneMessage')->name('contactDataOne');
     
-    Route::get("/contact/{id}/update", 'App\Http\Controllers\ContactController@updateMessage')->name('updateMessage');
+    Route::get("/message/{id}/update", 'App\Http\Controllers\ContactController@updateMessage')->name('updateMessage');
     
-    Route::post("/contact/{id}/update/done", 'App\Http\Controllers\ContactController@updateMessageSubmit')->name('contactUpdateSubmit');
+    Route::put("/message/{id}/updated", 'App\Http\Controllers\ContactController@updateMessageSubmit')->name('contactUpdateSubmit');
     
-    Route::get("/contact/{id}/delete", 'App\Http\Controllers\ContactController@deleteMessage')->name('deleteMessage');
+    Route::delete("/message/{id}/delete", 'App\Http\Controllers\ContactController@deleteMessage')->name('deleteMessage');
     
-    Route::post('/contact/getPost', 'App\Http\Controllers\ContactController@getPostByTitle')->name('getPost');
+    Route::post('/message/all', 'App\Http\Controllers\ContactController@getPostByTitle')->name('getPost');
     
     Route::get('/auth', function()
     {
@@ -53,11 +53,16 @@ Route::middleware('set_locale')->group(function(){
     }
     )->name('login');
     
-    Route::get('/auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
+    Route::post('/auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
     
     Route::post('/auth/log/done', 'App\Http\Controllers\authController@checkIfLog')->name('logAccount');
     
     Route::get('/auth/logout', 'App\Http\Controllers\authController@logout')->name('logoutAccount');
     
     Route::get('/change_language/{locale}', 'App\Http\Controllers\LanguageController@changeLanguage')->name('changeLanguage');
+
+    Route::get('send/all/posts', 'App\Http\Controllers\SendExcelController@sendAllPosts')->name('sendExcel');
+    
+    Route::get('send/user/posts', 'App\Http\Controllers\SendExcelController@sendUserPosts')->name('sendUserExcel');
+
 });

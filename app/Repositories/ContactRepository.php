@@ -74,7 +74,9 @@ class ContactRepository
      */
     public function getPostedMessages()
     {
-        return $this->contact::all();
+        return $this->contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
+            ->select('contacts.id', 'registred_users.nickname', 'contacts.subject', 'contacts.message')
+            ->paginate(3);
     }
 
     /**
@@ -95,7 +97,7 @@ class ContactRepository
     public function getPostByTitle(string $nameOfPost, int $id)
     {
         return Contact::where('user_id', $id)
-            ->where('subject',$nameOfPost)->get();
+            ->where('subject', $nameOfPost)->get();
     }
 
     /**
@@ -107,9 +109,5 @@ class ContactRepository
         return $this->contact::with('RegistredUsers')
             ->where('user_id', $id)
             ->pluck('id');
-    }
-
-    public function getUserMessages($id)
-    {
     }
 }

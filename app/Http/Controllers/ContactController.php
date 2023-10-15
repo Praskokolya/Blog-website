@@ -8,7 +8,7 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
-use App\Repositories\GetPosts;
+use App\Repositories\ResponseRepository;
 
 class ContactController extends Controller
 {
@@ -18,14 +18,17 @@ class ContactController extends Controller
     /** @var ContactRepository */
     public $contactRepository;
 
+    public $responseRepository;
+
     /**
      * ContactController constructor
      *
      * @param ContactService $contactService
      * @param ContactRepository $contactRepository
      */
-    public function __construct(ContactService $contactService, ContactRepository $contactRepository)
+    public function __construct(ContactService $contactService, ContactRepository $contactRepository, ResponseRepository $responseRepository)
     {
+        $this->responseRepository = $responseRepository;
         $this->contactRepository = $contactRepository;
         $this->contactService = $contactService;
     }
@@ -50,7 +53,7 @@ class ContactController extends Controller
      */
     protected function all()
     {
-        
+
         $allPosts = Contact::find($this->contactRepository->getAllMessages(Auth::id()));
         return view('messages', ['data' => $allPosts]);
     }
@@ -143,6 +146,17 @@ class ContactController extends Controller
      */
     protected function showHomePage()
     {
+        return view('home', ['data' => $this->contactRepository->getPostedMessages(), 'responses' => $this->responseRepository->getReponses()]);
+    }
+    public function responseForm()
+    {
         return view('home', ['data' => $this->contactRepository->getPostedMessages()]);
+    }
+    public function responseCreate(Request $request)
+    {
+        $response = $request->input('data');
+        $id = $request->input('post_id');
+        $this->responseRepository->createResponse($id, $response, Auth::user()->nickname);
+        return redirect()->back();
     }
 }

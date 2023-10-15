@@ -61,4 +61,9 @@ Route::middleware('set_locale')->group(function () {
     Route::get('send/posts', 'App\Http\Controllers\SendExcelController@sendAllPosts')->name('sendExcel');
 
     Route::get('send/user/posts', 'App\Http\Controllers\SendExcelController@sendUserPosts')->name('sendUserExcel');
+
+    Route::get('response/form{id}', 'App\Http\Controllers\ContactController@responseForm')->name('responseForm');
+
+    Route::get('response/create', 'App\Http\Controllers\ContactController@responseCreate')->name('responseCreate');
+
 });

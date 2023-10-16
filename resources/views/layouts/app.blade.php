@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/app.css">
 </head>
+
 <body>
     @include('includes.header')
 
-    @if(Request::is('/'))
+    @if (Request::is('/'))
         @include('includes.hero')
     @endif
     <div class="container mt-5">
@@ -22,18 +24,19 @@
                 @yield('content')
             </div>
             <div class="col-4">
-                @if(Request::is('posts'))
-                   @include('includes.findPost')
+                @if (Request::is('posts'))
+                    @include('includes.findPost')
                 @endif
-                @if(Request::is('contact/post'))
-                   @include('includes.findPost')
+                @if (Request::is('contact/post'))
+                    @include('includes.findPost')
                 @endif
             </div>
         </div>
     </div>
-    @if(Request::is('/auth'))
+    @if (Request::is('/auth'))
         @include('register')
     @endif
     @include('includes.footer')
 </body>
+
 </html>

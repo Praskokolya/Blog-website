@@ -66,4 +66,7 @@ Route::middleware('set_locale')->group(function () {
 
     Route::get('response/create', 'App\Http\Controllers\ContactController@responseCreate')->name('responseCreate');
 
+    Route::get('user/profile', function(){
+        return view('user.CurrentUserProfile');
+    })->name('userProfile');
 });

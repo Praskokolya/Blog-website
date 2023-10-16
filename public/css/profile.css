@@ -1,0 +1,12 @@
+a:hover{
+    color: rgb(144, 143, 143);
+  }
+a{
+    color: black
+}
+form{
+  display: none;
+}
+.hiddenbtn{
+  display: none;
+}

@@ -1,3 +1,4 @@
+
 function showAllForms(){
     allForms = document.querySelectorAll('form');
     allFormsData = allForms.forEach(form => {
@@ -22,12 +23,45 @@ function showAllForms(){
 
 }
 
-function sendData(){
-    const select = document.querySelector('#gender');
+function getData(){
+    const newGender = document.querySelector('#gender').value;
+    const newName = document.querySelector('#new-name').value;
+    const interests = document.querySelector('#interests').value;
+    const birthdate = document.querySelector('#birthdate').value;
+    const userId = document.querySelector('#user_id').value;
 
-    // Получаем значение поля select
-    const gender = select.value;
-    
-    // Выводим значение в консоль
-    console.log(gender);
+    const data = {
+        user_id: userId,
+        gender: newGender,
+        name: newName,
+        interests: interests,
+        birthdate: birthdate
+      };
+    sendData(data)
 }
+
+function sendData(data) {
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch('/user/profile', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken,
+    },
+    body: JSON.stringify({
+        data 
+    })
+})
+.then(response => {
+    if (response.status === 200) {
+        console.log(data, 'all right')
+    } else {
+        console.error('Ошибка сервера');
+    }
+})
+.catch(error => {
+    console.error(error);
+});
+  }
+  

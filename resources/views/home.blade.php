@@ -54,9 +54,10 @@
                         @endif
                     @endforeach
                 </div>
+                {{$data->links()}}
             @endif
         </div>
-        {{$data->links()}}
+    
 
     @endsection
 </body>

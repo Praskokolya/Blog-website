@@ -16,10 +16,10 @@ class CreateUserInfosTable extends Migration
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('interests');
-            $table->string('birthdate');
-            $table->string('gender');
-            $table->string('user_id');
+            $table->string('interests')->nullable;
+            $table->string('birthdate')->nullable;
+            $table->string('gender')->nullable;
+            $table->string('registred_users_id');
         });
     }
 

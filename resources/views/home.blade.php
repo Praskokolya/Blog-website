@@ -33,21 +33,9 @@
                                     <div class="card-header">
                                         <p class="card-text">{{ $post->nickname }}</p>
                                     </div>
-                                    <div class="card-body text-danger">
-                                        <p class="card-text">{{ $post->message }}</p>
-                                    </div>
-                                    @if (Request::is('response/form' . $post->id))
-                                        @include('includes.form', ['postId' => $post->id])
-                                    @else
-                                        <div class="response-block">
-                                            <a href="{{ route('responseForm', $post->id) }}">Send response</a>
-                                        </div>
-                                    @endif
-                                    <div class="responses" target="_self">
-                                        @foreach ($post->responses as $response)
-                                            <li><b>{{ $response->user_name }}</b></li>
-                                            <p>{{ $response->response }}</p>
-                                        @endforeach
+                                    <div class="card-body">
+                                        <p class="card-text"><h6>{{$post->subject}}</h6></p>
+                                        <p class="card-text">{{$post->message}}</p>
                                     </div>
                                 </div>
                             </div>

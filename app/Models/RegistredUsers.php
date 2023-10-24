@@ -16,4 +16,8 @@ class RegistredUsers extends Authenticatable
     {
         return $this->hasMany(Contact::class);
     }
+
+    public function userInfo(){
+        return $this->hasMany(UserInfo::class);
+    }
 }

@@ -23,14 +23,6 @@
             <div class="col-8">
                 @yield('content')
             </div>
-            <div class="col-4">
-                @if (Request::is('posts'))
-                    @include('includes.findPost')
-                @endif
-                @if (Request::is('contact/post'))
-                    @include('includes.findPost')
-                @endif
-            </div>
         </div>
     </div>
     @if (Request::is('/auth'))

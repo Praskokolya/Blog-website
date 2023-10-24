@@ -21,13 +21,12 @@
         </nav>
         @if (Auth::check())
             <a class="p-2 text-dark" href="{{ route('logoutAccount') }}">{{ __('messages.logout') }}</a>
-            <div class="mr-3"><a href="{{route("userProfile")}}"><b>{{ Auth::user()->nickname }}</b></a></div>
+            <div class=""><a href="{{route("userProfile")}}"><b>{{ Auth::user()->nickname }}</b></a></div>
         @else
             <div class="mr-1"><a class="btn btn-outline-primary"
                     href="{{ route('authForm') }}">{{ __('messages.sign_up') }}</a></div>
         @endif
         <a href="{{ route('changeLanguage', __('messages.set_lang')) }}">
-            @method('patch')
             {{ __('messages.set_lang') }}
         </a>
     </div>

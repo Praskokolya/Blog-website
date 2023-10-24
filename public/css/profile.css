@@ -10,3 +10,17 @@ form{
 .hiddenbtn{
   display: none;
 }
+
+.avatar-container {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  margin-left: 147px;
+  margin-left: 33%; 
+
+}
+.bottom-image{
+  display: none;
+}

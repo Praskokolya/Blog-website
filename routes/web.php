@@ -70,4 +70,9 @@ Route::middleware('set_locale')->group(function () {
 
     Route::post('user/profile', 'App\Http\Controllers\userController@setUserData')->name('setData');
 
+    Route::post('user/upload', 'App\Http\Controllers\userController@uploadImage')->name('setImage');
+
+    Route::get('team', function(){
+        return view('footer.team');
+    })->name('team');
 });

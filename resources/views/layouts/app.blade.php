@@ -25,9 +25,13 @@
             </div>
         </div>
     </div>
+    <div class="profile">
+        @yield('profile')
+    </div>
     @if (Request::is('/auth'))
         @include('register')
     @endif
+
     @include('includes.footer')
 </body>
 

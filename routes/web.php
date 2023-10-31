@@ -69,8 +69,9 @@ Route::middleware('set_locale')->group(function () {
     Route::get('user/profile',  'App\Http\Controllers\userController@showUserProfile')->name('userProfile');
 
     Route::post('user/profile', 'App\Http\Controllers\userController@setUserData')->name('setData');
+    
+    Route::delete('user/profile', 'App\Http\Controllers\UserController@deleteImage')->name('deleteImage');
 
-    Route::post('user/upload', 'App\Http\Controllers\userController@uploadImage')->name('setImage');
 
     Route::get('team', function(){
         return view('footer.team');

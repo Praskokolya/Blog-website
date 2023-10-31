@@ -128,8 +128,7 @@ class ContactController extends Controller
      */
     public function getPost(Request $request)
     {
-        if ($this
-            ->contactRepository
+        if ($this->contactRepository
             ->getPostByTitle($request->namePost, Auth::id())
             ->isEmpty()
         ) {
@@ -146,17 +145,6 @@ class ContactController extends Controller
      */
     protected function showHomePage()
     {
-        return view('home', ['data' => $this->contactRepository->getPostedMessages(), 'responses' => $this->responseRepository->getReponses()]);
-    }
-    public function responseForm()
-    {
         return view('home', ['data' => $this->contactRepository->getPostedMessages()]);
-    }
-    public function responseCreate(Request $request)
-    {
-        $response = $request->input('data');
-        $id = $request->input('post_id');
-        $this->responseRepository->createResponse($id, $response, Auth::user()->nickname);
-        return redirect()->back();
     }
 }

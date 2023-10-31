@@ -36,8 +36,7 @@ class AuthController extends Controller
         $nickname = $request->input('nickname');
         $email = $request->input('email');
         $password = bcrypt($request->input('password'));
-        $user = $this
-            ->authRepository
+        $user = $this->authRepository
             ->createNewUser($password, $nickname, $email);
 
         Auth::login($user);

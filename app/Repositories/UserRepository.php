@@ -2,51 +2,56 @@
 
 namespace App\Repositories;
 
+use App\Models\RegistredUsers;
 use App\Models\UserInfo;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserRepository
 {
 
     public $userInfo;
-
-    public function __construct(UserInfo $userInfo)
+    public $registredUsers;
+    public function __construct(UserInfo $userInfo, RegistredUsers $registredUsers)
     {
+        $this->registredUsers = $registredUsers;
         $this->userInfo = $userInfo;
     }
     /**
-     * Undocumented function
-     *
-     * @param [type] $id
+     * @param integer $id
      * @return void
      */
-    public function create($id)
+    public function create()
     {
         $this->userInfo->create([
-            'birthdate' => 'Not stated',
-            'interests' => 'Not stated',
-            'registred_users_id' => $id,
-            'gender' => 'Not stated',
-            'image' => 'images\without_picture.png',
+            'registred_users_id' => Auth::id(),
         ]);
     }
     /**
      * Undocumented function
      *
-     * @param [type] $user
-     * @param [type] $birthdate
-     * @param [type] $gender
-     * @param [type] $interests
-     * @param [type] $user_id
+     * @param array $requestData
      * @return void
      */
-    public function update($user, $birthdate, $gender, $interests, $user_id, $image)
+    public function updateUserInfo(array $requestData)
     {
-        $user->update([
-            'birthdate' => $birthdate,
-            'interests' => $interests,
-            'registred_users_id' => $user_id,
-            'gender' => $gender,
-            'image' => $image,
-        ]);
+        unset($requestData['nickname']);
+        Auth::user()->userInfo->first()->update($requestData);
+    }
+    public function updateUserName($nickname)
+    {
+        $this->registredUsers->find(Auth::id())->update(['nickname' => $nickname]);
+    }
+    public function getUserImage()
+    {
+        return Auth::user()->userInfo->first()->image;
+    }
+    public function deleleUserImage()
+    {
+        Auth::user()->userInfo->first()->update(
+            [
+                'image' => null
+            ]
+        );
     }
 }

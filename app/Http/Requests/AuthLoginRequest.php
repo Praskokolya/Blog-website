@@ -28,6 +28,8 @@ class AuthLoginRequest extends FormRequest
             'confirmPassword.min' => 'The confirm password field must contain at least :min characters',
             'email.unique' => 'This email is already in use',
             'nickname.unique' => 'This nickname is already taken, please choose another',
+            'name.unique' => 'This nickname is already taken, please choose another',
+
         ];
     }
 }

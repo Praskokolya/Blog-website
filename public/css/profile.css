@@ -1,26 +1,42 @@
-a:hover{
-    color: rgb(144, 143, 143);
-  }
-a{
-    color: black
+a:hover {
+  color: rgb(144, 143, 143);
 }
-form{
+
+a {
+  color: black
+}
+
+.hiddenForm,
+.hiddenbtn,
+.hiddenInput {
   display: none;
 }
-.hiddenbtn{
-  display: none;
+
+#avatar {
+  width: 95%;
+  height: 95%;
 }
 
 .avatar-container {
   width: 150px;
   height: 150px;
   position: relative;
-  overflow: hidden;
-  display: flex;
-  margin-left: 147px;
-  margin-left: 33%; 
-
+  margin-left: 33%;
 }
-.bottom-image{
+.bottom-image {
   display: none;
+  width: 30px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
+
+.bottom-image-delete {
+  display: none;
+  width: 30px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+

@@ -23,6 +23,15 @@
             <div class="col-8">
                 @yield('content')
             </div>
+
+            <div class="col-4">
+                @if(Request::is('message/all'))
+                   @include('includes.findPost')
+                @endif
+                @if(Request::is('contact/getPost'))
+                   @include('includes.findPost')
+                @endif
+            </div>
         </div>
     </div>
     <div class="profile">

@@ -17,6 +17,8 @@
         @method('DELETE')
         <button type="submit" class="btn btn-danger">{{ __('messages.delete') }}</button>
     </form> 
+    <a href="{{ route("updateMessage", $data->id)}}"><button type="button" class="btn btn-primary">{{__('messages.update')}}</button></a>
+    <a href="{{ route("deleteMessage", $data->id)}}" method="POST"><button type="button" class="btn btn-danger">{{__('messages.delete')}}</button></a>
 </div>
 </div>
 @if(session('success'))

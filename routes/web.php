@@ -39,6 +39,21 @@ Route::middleware('set_locale')->group(function () {
     Route::post('post/sort', 'App\Http\Controllers\ContactController@getPost')->name('getPost');
 
     Route::get('auth', function () {
+
+    Route::get("/message/all", 'App\Http\Controllers\ContactController@allData')->name('contactData');
+    
+    Route::get("/message/{id}", 'App\Http\Controllers\ContactController@ShowOneMessage')->name('contactDataOne');
+    
+    Route::get("/message/{id}/update", 'App\Http\Controllers\ContactController@updateMessage')->name('updateMessage');
+    
+    Route::put("/message/{id}/updated", 'App\Http\Controllers\ContactController@updateMessageSubmit')->name('contactUpdateSubmit');
+    
+    Route::delete("/message/{id}/delete", 'App\Http\Controllers\ContactController@deleteMessage')->name('deleteMessage');
+    
+    Route::post('/message/all', 'App\Http\Controllers\ContactController@getPostByTitle')->name('getPost');
+    
+    Route::get('/auth', function()
+    {
         return view('RegComponents.signUp');
     })->name('authForm');
 
@@ -76,4 +91,9 @@ Route::middleware('set_locale')->group(function () {
     Route::get('team', function(){
         return view('footer.team');
     })->name('team');
+});
+    Route::get('send/all/posts', 'App\Http\Controllers\SendExcelController@sendAllPosts')->name('sendExcel');
+    
+    Route::get('send/user/posts', 'App\Http\Controllers\SendExcelController@sendUserPosts')->name('sendUserExcel');
+
 });

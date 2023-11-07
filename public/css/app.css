@@ -2,7 +2,7 @@ body {
     background: rgba(255, 255, 255, 0.933);
 }
 footer{
-    bottom: 0; /* Располагаем футер в самом низу контейнера */
+    bottom: 0;
     width: 100%;
     background-color: #ffffff; 
     padding: 20px;
@@ -12,7 +12,4 @@ footer{
     color: teal;
 }
 
-.nickname{
-    background-color: 123;
-}
 

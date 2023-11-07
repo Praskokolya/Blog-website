@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Contact;
 use App\Models\RegistredUsers;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ContactRepository
@@ -13,6 +14,8 @@ class ContactRepository
 {
     protected $contact;
     protected $user;
+
+    private const DEFAULT_POSTS_PER_PAGE = 3;
 
     /**
      * ContactRepository constructor
@@ -29,14 +32,11 @@ class ContactRepository
      * @param integer $user_id
      * @return void
      */
-    public function insertMessage(string $subject, string $message, int $user_id)
+    public function insertMessage(array $requestData)
     {
-        $this->contact->create([
-            'subject' => $subject,
-            'message' => $message,
-            'user_id' => $user_id,
-            'is_posted' => true,
-        ]);
+        $requestData['user_id'] = Auth::id();
+
+        $this->contact->create($requestData);
     }
 
     /**
@@ -55,6 +55,7 @@ class ContactRepository
             ->update([
                 'subject' => $subject,
                 'message' => $message,
+                'user_id' => Auth::id(),
             ]);
     }
 
@@ -74,7 +75,9 @@ class ContactRepository
      */
     public function getPostedMessages()
     {
-        return $this->contact::all();
+        return $this->contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
+            ->select('contacts.id', 'registred_users.nickname', 'contacts.subject', 'contacts.message')
+            ->paginate(self::DEFAULT_POSTS_PER_PAGE);
     }
 
     /**
@@ -89,13 +92,13 @@ class ContactRepository
 
     /**
      * @param string $nameOfPost
+     * @param integer $id
      * @return mixed
      */
-    public function getPostByTitle(string $nameOfPost)
+    public function getPostByTitle(string $nameOfPost, int $id)
     {
-        return $this
-            ->contact::where('subject', $nameOfPost)
-            ->get();
+        return Contact::where('user_id', $id)
+            ->where('subject', $nameOfPost)->get();
     }
 
     /**

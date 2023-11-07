@@ -8,6 +8,7 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
+use App\Repositories\ResponseRepository;
 use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
@@ -17,7 +18,6 @@ class ContactController extends Controller
 
     /** @var ContactRepository */
     public $contactRepository;
-
     /**
      * ContactController constructor
      *
@@ -28,7 +28,6 @@ class ContactController extends Controller
     {
         $this->contactRepository = $contactRepository;
         $this->contactService = $contactService;
-        $this->middleware('auth')->only('allData');
     }
 
     /**
@@ -39,9 +38,8 @@ class ContactController extends Controller
      */
     public function submit(ContactRequest $request)
     {
-        $subject = $request->input('subject');
-        $message = $request->input('message');
-        $this->contactRepository->insertMessage($subject, $message, Auth::id());
+        $requestData = $request->validated();
+        $this->contactRepository->insertMessage($requestData);
         return redirect('/');
     }
 
@@ -49,8 +47,9 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function allData()
+    protected function all()
     {
+
         $allPosts = Contact::find($this->contactRepository->getAllMessages(Auth::id()));
         return view('messages', ['data' => $allPosts]);
     }
@@ -60,7 +59,7 @@ class ContactController extends Controller
      * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function showOneMessage(int $id)
+    protected function message(int $id)
     {
         $user = Auth::user()->nickname;
         $this
@@ -79,7 +78,7 @@ class ContactController extends Controller
      * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function updateMessage(int $id)
+    protected function update(int $id)
     {
         return view('update', ['data' => $this->contactRepository->getInfoFromUser($id)]);
     }
@@ -91,7 +90,7 @@ class ContactController extends Controller
      * @param ContactRequest $req
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function updateMessageSubmit(int $id, ContactRequest $req)
+    protected function updateSubmit(int $id, ContactRequest $req)
     {
         $subject = $req->input('subject');
         $message = $req->input('message');
@@ -110,7 +109,7 @@ class ContactController extends Controller
      * @param integer $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function deleteMessage(int $id)
+    protected function delete(int $id)
     {
         $this->contactRepository
             ->deleteMessage($id);
@@ -123,16 +122,15 @@ class ContactController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    protected function getPostByTitle(Request $request)
+    public function getPost(Request $request)
     {
-        if ($this
-            ->contactRepository
-            ->getPostByTitle($request->namePost)
+        if ($this->contactRepository
+            ->getPostByTitle($request->namePost, Auth::id())
             ->isEmpty()
         ) {
             return redirect()->route('contactData')->with('error', 'Post not found');
         } else {
-            return view('messages', ['data' => $this->contactRepository->getPostByTitle($request->namePost)]);
+            return view('messages', ['data' => $this->contactRepository->getPostByTitle($request->namePost, Auth::id())]);
         }
     }
 

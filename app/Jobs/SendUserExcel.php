@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Exports\UserPostsExport;
 use App\Exports\AllPostsExport;
-use App\Exports\UserPostsExport;
 use App\Models\Contact;
 use App\Services\FileService;
 use App\Services\TelegramService;

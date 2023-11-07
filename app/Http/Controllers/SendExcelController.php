@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-user_profile
 use App\Jobs\SendExcel;
 use App\Jobs\SendUserExcel;
 use Illuminate\Support\Facades\Auth;
 use App\Exports\UserPostsExport;
-use App\Jobs\SendExcel;
-use App\Jobs\SendUserExcel;
 use App\Models\Contact;
-use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SendExcelController extends Controller

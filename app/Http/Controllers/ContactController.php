@@ -17,18 +17,14 @@ class ContactController extends Controller
 
     /** @var ContactRepository */
     public $contactRepository;
-
-    public $responseRepository;
-
     /**
      * ContactController constructor
      *
      * @param ContactService $contactService
      * @param ContactRepository $contactRepository
      */
-    public function __construct(ContactService $contactService, ContactRepository $contactRepository, ResponseRepository $responseRepository)
+    public function __construct(ContactService $contactService, ContactRepository $contactRepository)
     {
-        $this->responseRepository = $responseRepository;
         $this->contactRepository = $contactRepository;
         $this->contactService = $contactService;
     }
@@ -41,9 +37,8 @@ class ContactController extends Controller
      */
     public function submit(ContactRequest $request)
     {
-        $subject = $request->input('subject');
-        $message = $request->input('message');
-        $this->contactRepository->insertMessage($subject, $message, Auth::id());
+        $requestData = $request->validated();
+        $this->contactRepository->insertMessage($requestData);
         return redirect('/');
     }
 

@@ -11,6 +11,7 @@ class Contact extends Model
 {
     use HasFactory;
     protected $fillable = ['subject', 'message', 'is_posted', 'user_id'];
+    protected $guarded = ['id'];
 
     public function RegistredUser(): BelongsTo
     {

@@ -16,7 +16,7 @@ class Responses extends Model
         'response',
         'user_name',
     ];
-    public function Contacts(): BelongsTo
+    public function contact(): BelongsTo
     {
         return $this->belongsTo(Contact::class);
     }

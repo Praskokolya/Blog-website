@@ -72,7 +72,6 @@ Route::middleware('set_locale')->group(function () {
     
     Route::delete('user/profile', 'App\Http\Controllers\UserController@deleteImage')->name('deleteImage');
 
-
     Route::get('team', function(){
         return view('footer.team');
     })->name('team');

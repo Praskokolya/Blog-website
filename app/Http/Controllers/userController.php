@@ -33,7 +33,7 @@ class UserController extends Controller
     public function showUserProfile()
     {
 
-        $userInfo = Auth::user()->userInfo;
+        $userInfo = Auth::user()->userInfos;
 
         if ($userInfo->isEmpty()) {
             $this->userRepository->create();

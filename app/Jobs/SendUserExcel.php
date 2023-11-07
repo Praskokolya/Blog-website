@@ -3,6 +3,9 @@
 namespace App\Jobs;
 
 use App\Exports\UserPostsExport;
+use App\Exports\AllPostsExport;
+use App\Exports\UserPostsExport;
+use App\Models\Contact;
 use App\Services\FileService;
 use App\Services\TelegramService;
 use Illuminate\Bus\Queueable;
@@ -10,6 +13,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 

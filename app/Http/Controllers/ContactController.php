@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
 use App\Repositories\ResponseRepository;
+use Illuminate\Support\Facades\Session;
 
 class ContactController extends Controller
 {
@@ -130,6 +131,8 @@ class ContactController extends Controller
             return redirect()->route('contactData')->with('error', 'Post not found');
         } else {
             return view('messages', ['data' => $this->contactRepository->getPostByTitle($request->namePost, Auth::id())]);
+
+            return view('messages', ['data' => $this->contactRepository->getPostByTitle($request->namePost)]);
         }
     }
 

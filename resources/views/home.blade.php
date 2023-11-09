@@ -26,6 +26,7 @@
                 <p>There are no posts yet.</p>
             @elseif (isset($data))
                 <div class="row mt-2">
+
                     @foreach ($data as $post)
                         @if (is_object($post))
                             <div class="col-md-10">
@@ -36,6 +37,7 @@
                                     <div class="card-body">
                                         <p class="card-text"><h6>{{$post->subject}}</h6></p>
                                         <p class="card-text">{{$post->message}}</p>
+                                        <img src="{{ asset('storage/' . $post->post_image)}}" alt="" id="postImage">
                                     </div>
                                 </div>
                             </div>

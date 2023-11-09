@@ -42,4 +42,9 @@ a {
   cursor: pointer;
 }
 
-
+#postImage{
+  min-width: 80px;
+  min-width: 80px;
+  max-width: 125px;
+  max-height: 125px;
+}

@@ -33,11 +33,16 @@ class ContactController extends Controller
      * @method submit()
      *
      * @param ContactRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return mixed
      */
     public function submit(ContactRequest $request)
     {
         $requestData = $request->validated();
+        if ($request->hasFile('post_image')) {
+            $path = $this->contactService->savePostPhoto($requestData['post_image']);
+            $requestData['post_image'] = $path;
+        }else{
+        }   
         $this->contactRepository->insertMessage($requestData);
         return redirect('/');
     }

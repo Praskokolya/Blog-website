@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Contact extends Model
 {
     use HasFactory;
-    protected $fillable = ['subject', 'message', 'is_posted', 'user_id'];
+    protected $fillable = ['subject', 'message', 'is_posted', 'user_id', 'post_image'];
     protected $guarded = ['id'];
 
     public function RegistredUser(): BelongsTo

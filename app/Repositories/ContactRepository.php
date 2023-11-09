@@ -35,10 +35,9 @@ class ContactRepository
     public function insertMessage(array $requestData)
     {
         $requestData['user_id'] = Auth::id();
-
         $this->contact->create($requestData);
     }
-
+    
     /**
      *
      * @param string $subject
@@ -76,7 +75,7 @@ class ContactRepository
     public function getPostedMessages()
     {
         return $this->contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
-            ->select('contacts.id', 'registred_users.nickname', 'contacts.subject', 'contacts.message')
+            ->select('contacts.id', 'registred_users.nickname', 'contacts.subject', 'contacts.message', 'post_image')
             ->paginate(self::DEFAULT_POSTS_PER_PAGE);
     }
 

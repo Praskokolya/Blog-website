@@ -24,9 +24,9 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject' => 'required|min:1|max:30',
+            'subject' => 'required|min:1|max:40',
             'message' => 'required|min:15|max:500',
-            
+            'post_image' => 'sometimes'
         ];
     }
     public function messages(){;

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileRequest extends FormRequest
+class ResponseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,8 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname' => 'required|string|max:16',
-            'interests' => 'max:255|sometimes',
-            'birthdate' => 'sometimes|',
-            'gender' => 'sometimes|',
-            'image' => 'sometimes',
-        ];
+            'response' => 'max:255|required',
+            'contact_id' => 'required'
+        ]; 
     }
 }

@@ -75,4 +75,9 @@ Route::middleware('set_locale')->group(function () {
     Route::get('team', function(){
         return view('footer.team');
     })->name('team');
+
+    Route::get('feed','App\Http\Controllers\FeedController@getAllUsers')->name('feed');
+
+    Route::get('user/{id}','App\Http\Controllers\FeedController@getOneUser')->name('OneUser');
+    Route::POST('create-response', 'App\Http\Controllers\ResponseController@createResponse')->name("create-response");
 });

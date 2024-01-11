@@ -135,8 +135,6 @@ return [
 
     'providers' => [
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
-
         /*
          * Laravel Framework Service Providers...
          */

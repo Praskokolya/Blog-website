@@ -8,10 +8,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use App\Repositories\AuthRepository;
+use App\Repositories\UserRepository;
+
 class AuthController extends Controller
 {
     /** @var AuthService */
     public $authService;
+    /**
+     * @var UserRepository
+     */
+    public $userRepository;
 
     /** @var AuthRepository */
     public $authRepository;
@@ -21,15 +27,16 @@ class AuthController extends Controller
      * @param AuthService $authService
      * @param AuthRepository $authRepository
      */
-    public function __construct(AuthService $authService, AuthRepository $authRepository)
+    public function __construct(AuthService $authService, AuthRepository $authRepository, UserRepository $userRepository)
     {
         $this->authRepository = $authRepository;
         $this->authService = $authService;
+        $this->userRepository = $userRepository;
     }
     /**
      *    
      * @param AuthLoginRequest $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return mixed
      */
     public function createAccount(AuthLoginRequest $request)
     {
@@ -38,10 +45,12 @@ class AuthController extends Controller
         $password = bcrypt($request->input('password'));
         $user = $this->authRepository
             ->createNewUser($password, $nickname, $email);
-
+            
         Auth::login($user);
+         
+        $this->userRepository->create();
+        return redirect('/user/profile');
 
-        return view('home', ['user' => $user->nickname]);
     }
     /** 
      * @param LoginRequest $request

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 use App\Repositories\ContactRepository;
-use Illuminate\Support\Facades\Auth;
 
 class ContactService{
     protected $contactRepository;
@@ -10,7 +9,7 @@ class ContactService{
         $this->contactRepository = $contactRepository;  
     }
     public function savePostPhoto($image){
-        return $image->storeAs('postPhoto', $image->getClientOriginalName(), 'public');
+        return $image->storeAs('postPhoto', $this->contactRepository->getLatestId() . $image->getClientOriginalName(), 'public');
     }
     public function transmitUserData($user, int $id){
         if($user){

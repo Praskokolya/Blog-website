@@ -38,7 +38,7 @@ return [
     'posts_list' => 'Список постів',
     'enter_password' => 'Введіть свій пароль',
     'confirm_password' => 'Підтвердіть свій пароль',
-    
+    'upload_image' => 'Загрузити фото',
     'check_in' => 'Зареєструватися'
 
 

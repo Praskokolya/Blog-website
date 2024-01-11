@@ -25,19 +25,22 @@ class ContactRepository
         $this->contact = $contact;
         $this->user = $user;
     }
+    public function getLatestId() : int{
+        return $this->contact->latest()->pluck('id')->first();
+    }
 
-    /**
-     * @param string $subject
-     * @param string $message
-     * @param integer $user_id
-     * @return void
-     */
-    public function insertMessage(array $requestData)
-    {
+    public function getUserImage() : ?string{
+        if(Auth::check()){         
+            return Auth::user()->userInfos->pluck('image')->first();
+        }
+        return null;
+    }
+    public function insertMessage(array $requestData){
         $requestData['user_id'] = Auth::id();
         $this->contact->create($requestData);
     }
     
+
     /**
      *
      * @param string $subject
@@ -64,8 +67,7 @@ class ContactRepository
      */
     public function getInfoFromUser(int $id)
     {
-        return $this
-            ->contact
+        return $this->contact
             ->find($id);
     }
 
@@ -74,11 +76,20 @@ class ContactRepository
      */
     public function getPostedMessages()
     {
-        return $this->contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
-            ->select('contacts.id', 'registred_users.nickname', 'contacts.subject', 'contacts.message', 'post_image')
+        return $this->contact
+            ->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
+            ->join('user_infos', 'contacts.user_id', '=', 'user_infos.registred_users_id') 
+            ->select(
+                'contacts.id as contact_id',
+                'registred_users.nickname',
+                'contacts.subject',
+                'contacts.message',
+                'post_image',
+                'user_infos.image',
+                'registred_users.id as user_id'
+            )
             ->paginate(self::DEFAULT_POSTS_PER_PAGE);
     }
-
     /**
      * @param integer $id
      */

@@ -77,7 +77,9 @@ function sendDeleteRequest() {
         .catch((error) => {
             console.error(error);
         });
-    window.location.href = '/user/profile'
+        setTimeout(function () {
+            window.location.href = '/user/profile';
+          }, 100);
 
 }
 

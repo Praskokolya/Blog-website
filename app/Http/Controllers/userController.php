@@ -35,11 +35,6 @@ class UserController extends Controller
 
         $userInfo = Auth::user()->userInfos;
 
-        if ($userInfo->isEmpty()) {
-            $this->userRepository->create();
-            return redirect('/user/profile');
-        }
-
         return view("user.CurrentUserProfile")->with(['data' => $userInfo]);
     }
     /**

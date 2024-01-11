@@ -16,10 +16,10 @@
         <label for="message">@lang('messages.message')</label>
         <textarea name="message" id="message" cols="10" rows="10" class="form-control" placeholder="@lang('messages.enter_message')"></textarea>
     </div>
-    <div class="form-group">
-        <label for="image">@lang('messages.upload_image')</label>
-        <input type="file" name="post_image" id="post_image" class="form-control">
-    </div>
+    <div class="custom-file">
+        <input type="file" class="custom-file-input" id="customFileLang" lang="ru" name="post_image", id="post_image">
+        <label class="custom-file-label" for="customFileLang">@lang('messages.upload_image')</label>
+      </div>
     <button type="submit" class="btn btn-success">@lang('messages.send')</button>
 </form>
 

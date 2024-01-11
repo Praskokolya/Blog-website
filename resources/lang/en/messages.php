@@ -37,7 +37,6 @@ return [
      'posts_list' => 'Posts list',
     'enter_password' => 'Enter your password',
     'confirm_password' => 'Confirm your password',
-    'check_in' => 'Check in'
-
-
+    'check_in' => 'Check in',
+    'upload_image' => 'Upload photo',
 ];

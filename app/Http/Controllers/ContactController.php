@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContactRequest;
+use App\Http\Requests\ResponseRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
-use App\Repositories\ResponseRepository;
 
 class ContactController extends Controller
 {
@@ -41,8 +41,8 @@ class ContactController extends Controller
         if ($request->hasFile('post_image')) {
             $path = $this->contactService->savePostPhoto($requestData['post_image']);
             $requestData['post_image'] = $path;
-        }else{
-        }   
+        } else {
+        }
         $this->contactRepository->insertMessage($requestData);
         return redirect('/');
     }
@@ -66,12 +66,10 @@ class ContactController extends Controller
     protected function message(int $id)
     {
         $user = Auth::user()->nickname;
-        $this
-            ->contactService
+        $this->contactService
             ->transmitUserData($user, $id);
 
-        $postInfo = $this
-            ->contactRepository
+        $postInfo = $this->contactRepository
             ->getInfoFromUser($id);
         return view('OneMessage', ['data' => $postInfo, 'name' => $user]);
     }
@@ -147,4 +145,11 @@ class ContactController extends Controller
     {
         return view('home', ['data' => $this->contactRepository->getPostedMessages()]);
     }
+    /**
+     * Undocumented function
+     *
+     * @param ResponseRequest $request
+     * @return void
+     */
+     
 }

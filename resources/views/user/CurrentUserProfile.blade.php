@@ -26,11 +26,6 @@
                                 <div class="card mb-4">
                                     <div class="card-body text-center">
                                         <div class="avatar-container">
-                                            @if ($item->image == null || $item->image == 'undefiend')
-                                                @php
-                                                    $item->image = 'photos/without_picture.png';
-                                                @endphp
-                                            @endif
                                             <img src="{{ asset('storage/' . $item->image) }}" id="avatar" alt="avatar"
                                                 class="img-fluid rounded-circle">
                                             <input type="file" name="image" id="file-input" class="hiddenInput">
@@ -87,9 +82,6 @@
                                             <div class="col-sm-2">
                                                 <div class="text-muted mb-0">
                                                     <div class="currentDataGender">
-                                                        @if ($item->gender == null)
-                                                            Not stated
-                                                        @endif
                                                         {{ $item->gender }}
                                                     </div>
                                                 </div>
@@ -114,13 +106,10 @@
                                                 <form id="myForm" class="hiddenForm">
                                                     @csrf
                                                     <input type="text" name="interests", id="interests",
-                                                        value="{{ $item->interests }}">
+                                                        value="{{ old('interests', $item->interests) }}">
                                                 </form>
                                                 <div class="text-muted mb-0">
                                                     <div class="currentDataInterests">
-                                                        @if ($item->interests == null)
-                                                            Not stated
-                                                        @endif
                                                         {{ $item->interests }}
                                                     </div>
                                                 </div>
@@ -139,9 +128,6 @@
                                                 </form>
                                                 <div class="text-muted mb-0">
                                                     <div class="currentDataBirthdate">
-                                                        @if ($item->birthdate == null)
-                                                            Not stated
-                                                        @endif
                                                         {{ $item->birthdate }}
                                                     </div>
                                                 </div>

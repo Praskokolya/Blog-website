@@ -19,16 +19,20 @@
         </a>
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="{{ route('home') }}">{{ __('messages.main') }}</a>
+            <a class="p-2 text-dark" href="{{ route('feed') }}">Feed</a>
             <a class="p-2 text-dark" href="{{ route('contact') }}">{{ __('messages.add_message') }}</a>
             <a class="p-2 text-dark" href="{{ route('about') }}">{{ __('messages.about') }}</a>
             <a class="p-2 text-dark" href="{{ route('contactData') }}">{{ __('messages.all_messages') }}</a>
         </nav>
         @if (Auth::check())
             <a class="p-2 text-dark" href="{{ route('logoutAccount') }}">{{ __('messages.logout') }}</a>
-            <div class=""><a href="{{ route('userProfile') }}"><b>{{ Auth::user()->nickname }}</b></a></div>
+            <a href="{{ route('userProfile') }}">
+                <img src="{{ asset('storage/' . $headerImage) }}" alt="" id="avatarHeader"
+                    class="img-fluid rounded-circle">
+            </a>
         @else
             <div class="mr-1"><a class="btn btn-outline-primary"
-                 href="{{ route('authForm') }}">{{ __('messages.sign_up') }}</a></div>
+                    href="{{ route('authForm') }}">{{ __('messages.sign_up') }}</a></div>
         @endif
     </div>
 </body>

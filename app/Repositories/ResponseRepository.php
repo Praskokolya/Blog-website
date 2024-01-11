@@ -12,12 +12,8 @@ class ResponseRepository{
         $this->responses = $responses;
         $this->contact = $contact;
     }
-    public function createResponse($id, $response, $userName){
-        $this->responses::create([
-            'contact_id' => $id,
-            'response' => $response,
-            'user_name' => $userName,
-        ]);
+    public function createResponse($data){
+        $this->responses::create($data);
     }
 
     public function getReponses(){

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DeleteEmailAndNameFromContacts extends Migration
+class AddGoogleIdColumnToTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class DeleteEmailAndNameFromContacts extends Migration
      */
     public function up()
     {
-        Schema::table('contacts', function (Blueprint $table) {
-            $table->dropColumn(['email', 'name']);
+        Schema::table('registred_users', function (Blueprint $table) {
+            $table->string('google_id')->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class DeleteEmailAndNameFromContacts extends Migration
      */
     public function down()
     {
-        Schema::table('contacts', function (Blueprint $table) {
+        Schema::table('registred_users', function (Blueprint $table) {
             //
         });
     }

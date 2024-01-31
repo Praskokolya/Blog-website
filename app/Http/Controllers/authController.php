@@ -9,6 +9,9 @@ use App\Http\Requests\LoginRequest;
 use App\Services\AuthService;
 use App\Repositories\AuthRepository;
 use App\Repositories\UserRepository;
+use App\Services\UserProfileService;
+use Exception;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -21,14 +24,15 @@ class AuthController extends Controller
 
     /** @var AuthRepository */
     public $authRepository;
-
+    public $userProfileService;
     /**
      * AuthController constructor
      * @param AuthService $authService
      * @param AuthRepository $authRepository
      */
-    public function __construct(AuthService $authService, AuthRepository $authRepository, UserRepository $userRepository)
+    public function __construct(UserProfileService $userProfileService, AuthService $authService, AuthRepository $authRepository, UserRepository $userRepository)
     {
+        $this->userProfileService = $userProfileService;
         $this->authRepository = $authRepository;
         $this->authService = $authService;
         $this->userRepository = $userRepository;
@@ -45,12 +49,11 @@ class AuthController extends Controller
         $password = bcrypt($request->input('password'));
         $user = $this->authRepository
             ->createNewUser($password, $nickname, $email);
-            
+
         Auth::login($user);
-         
+
         $this->userRepository->create();
         return redirect('/user/profile');
-
     }
     /** 
      * @param LoginRequest $request
@@ -80,4 +83,6 @@ class AuthController extends Controller
 
         return redirect('/');
     }
+
+
 }

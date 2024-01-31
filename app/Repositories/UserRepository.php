@@ -24,7 +24,6 @@ class UserRepository
      * @return void
      */
     public function create()
-
     {
         $this->userInfo->create([
             'registred_users_id' => Auth::id(),

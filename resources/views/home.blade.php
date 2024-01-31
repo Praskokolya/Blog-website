@@ -32,40 +32,51 @@
                 <div class="row mt-2">
                     @foreach ($data as $post)
                         @if (is_object($post))
-                            <div class="col-md-10" id="{{ $post->contact_id }}">
-                                <div class="card border-danger mb-3" style="height: 95%">
-                                    <a href="{{ route('OneUser', $post->user_id) }}">
-                                        <div class="card-header">
-                                            @if ($post->image == null)
-                                                @php
-                                                    $post->image = 'photos/without_picture.png';
-                                                @endphp
-                                            @endif
-                                            <p class="card-text"><img src="{{ asset('storage/' . $post->image) }}"
-                                                    alt="" class="img-fluid rounded-circle" id="avatarPost">
-                                                {{ $post->nickname }}
-                                        </div>
-                                    </a>
-                                    <div class="card-body">
-                                        {{ $post->post_id }}
-                                        <p class="card-text">
-                                        <h6>{{ $post->subject }}</h6>
-                                        </p>
-                                        <p class="card-text">{{ $post->message }}</p>
-                                        <p><img src="{{ asset('storage/' . $post->post_image) }}" alt=""
-                                                id="postImage"></p>
-                                        <div class="input-group mb-3">
-                                            <input type="text" class="form-control" placeholder="Your response"
-                                                id="form" aria-label="" aria-describedby="basic-addon2">
-                                        </div>
-                                        @if (Auth::check())
-                                            <button class="btn btn-outline-secondary" id="Response" type="button"
-                                                onclick="ShowResponseInput({{ $post->contact_id }})">Respond</button>
+                        <div class="col-md-10" id="{{ $post->contact_id }}">
+                            <div class="card border-danger mb-3" style="height: 99%">
+                                <a href="{{ route('OneUser', $post->user_id) }}">
+                                    <div class="card-header">
+                                        @if ($post->image == null)
+                                            @php
+                                                $post->image = 'photos/without_picture.png';
+                                            @endphp
                                         @endif
+                                        <p class="card-text"><img src="{{ asset('storage/' . $post->image) }}"
+                                                alt="" class="img-fluid rounded-circle" id="avatarPost">
+                                            {{ $post->nickname }}
                                     </div>
-
+                                </a>
+                                <div class="card-body">
+                                    {{ $post->post_id }}
+                                    <p class="card-text">
+                                        <h6>{{ $post->subject }}</h6>
+                                    </p>
+                                    <p class="card-text">{{ $post->message }}</p>
+                                    <p><img src="{{ asset('storage/' . $post->post_image) }}" alt="" id="postImage"></p>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Your response" id="form" aria-label=""
+                                            aria-describedby="basic-addon2">
+                                    </div>
+                                    @if (Auth::check())
+                                        <button class="btn btn-outline-secondary" id="Response" type="button"
+                                            onclick="ShowResponseInput({{ $post->contact_id }})">Respond</button>
+                                    @endif
+                        
+                                     <div class="responses-container">
+                                        @foreach ($responses as $item)
+                                            @if ($post->contact_id == $item->contact_id)
+                                                <div class="card mb-3">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ $item->user_name }}</h5>
+                                                        <p class="card-text">{{ $item->response }}</p>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
+                        </div>
                         @endif
                     @endforeach
                 </div>

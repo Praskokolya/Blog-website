@@ -9,6 +9,8 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
+use App\Repositories\ResponseRepository;
+use Illuminate\Support\Facades\Http;
 
 class ContactController extends Controller
 {
@@ -17,14 +19,17 @@ class ContactController extends Controller
 
     /** @var ContactRepository */
     public $contactRepository;
+
+    public $responseRepository;
     /**
      * ContactController constructor
      *
      * @param ContactService $contactService
      * @param ContactRepository $contactRepository
      */
-    public function __construct(ContactService $contactService, ContactRepository $contactRepository)
+    public function __construct(ContactService $contactService, ContactRepository $contactRepository, ResponseRepository $responseRepository)
     {
+        $this->responseRepository = $responseRepository;
         $this->contactRepository = $contactRepository;
         $this->contactService = $contactService;
     }
@@ -104,7 +109,6 @@ class ContactController extends Controller
             ->route('contactDataOne', $id)
             ->with('success', 'Post was updated');
     }
-
     /**
      * @method deleteMessage()
      *
@@ -117,7 +121,6 @@ class ContactController extends Controller
             ->deleteMessage($id);
         return redirect()->route('contactData')->with('success', 'Post delete successful');
     }
-
     /**
      * @method getPostByTitle()
      *
@@ -135,7 +138,6 @@ class ContactController extends Controller
             return view('messages', ['data' => $this->contactRepository->getPostByTitle($request->namePost, Auth::id())]);
         }
     }
-
     /**
      * @method showHomePage
      *
@@ -143,7 +145,7 @@ class ContactController extends Controller
      */
     protected function showHomePage()
     {
-        return view('home', ['data' => $this->contactRepository->getPostedMessages()]);
+        return view('home', ['data' => $this->contactRepository->getPostedMessages(), 'responses' => $this->responseRepository->getReponses()]);
     }
     /**
      * Undocumented function
@@ -151,5 +153,4 @@ class ContactController extends Controller
      * @param ResponseRequest $request
      * @return void
      */
-     
 }

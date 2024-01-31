@@ -2,7 +2,7 @@
 
 namespace App\Http\View\Composers;
 
-use App\Repositories\ContactRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class UserComposer
@@ -14,6 +14,9 @@ class UserComposer
         $image = $data['data']->first()->image;
         $gender = $data['data']->first()->gender;
         $birthdate = $data['data']->first()->birthdate;
+        if(Auth::user()->email == null){
+            Auth::user()->email = 'Undefiend';
+        };
 
         if ($interests == null) {
             $data['data']->first()->interests = 'Not stated';
@@ -21,7 +24,6 @@ class UserComposer
         if ($image == null) {
             $data['data']->first()->image = 'photos/without_picture.png';
         }
-
         if ($gender == null) {
             $data['data']->first()->gender = 'Not stated';
         }

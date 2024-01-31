@@ -1,28 +1,38 @@
 @extends('layouts.app')
 
-@section('title-block'){{$data->subject}}@endsection
+@section('title-block')
+    {{ $data->subject }}
+@endsection
 
 @section('content')
-<h1>{{$data->subject}}</h1>
-<div class="alert alert-info">
-    <div class="alert alert-info" style="max-width: 900px;">
-        <p style="word-wrap: break-word;">{{$data->message }}</p>
-    </div>
-    
-    <p>{{$name}}</p>
-    <p><small>{{ $data->created_at}}</small></p>
-    <a href="{{ route("update", $data->id)}}"><button type="button" class="btn btn-primary">{{__('messages.update')}}</button></a>
-    <form action="{{ route('delete', $data->id) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-danger">{{ __('messages.delete') }}</button>
-    </form> 
-</div>
-</div>
-@if(session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
+    <h1>{{ $data->subject }}</h1>
+    <div class="alert alert-info">
+        <div class="alert alert-info" style="max-width: 900px;">
+            <p style="word-wrap: break-word;">{{ $data->message }}</p>
+        </div>
 
+        <p>{{ $name }}</p>
+        <p><small>{{ $data->created_at }}</small></p>
+
+        <div style="display: flex">
+            <a href="{{ route('update', $data->id) }}"><button type="button"
+                    class="btn btn-primary">{{ __('messages.update') }}</button></a>
+            <form action="{{ route('delete', $data->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">{{ __('messages.delete') }}</button>
+            </form>
+            <a href="{{ route('make-post-twitter', $data->id) }}"> <button type="button" class="btn btn-info">Post to
+                    Twitter</button>
+            </a>
+        </div>
+
+    </div>
+
+    </div>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 @endsection

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MyTestController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -29,6 +30,7 @@ Route::middleware('set_locale')->group(function () {
     Route::get("posts", 'App\Http\Controllers\ContactController@all')->name('contactData')->middleware('auth');
 
     Route::get("post/{id}", 'App\Http\Controllers\ContactController@message')->name('contactDataOne');
+    Route::get("post//twitter/{id}", 'App\Http\Controllers\TwitterController@createTwitterPost')->name('make-post-twitter');
 
     Route::get("post/{id}/update/form", 'App\Http\Controllers\ContactController@update')->name('update');
 
@@ -37,7 +39,7 @@ Route::middleware('set_locale')->group(function () {
     Route::delete("post/{id}", 'App\Http\Controllers\ContactController@delete')->name('delete');
 
     Route::post('post/sort', 'App\Http\Controllers\ContactController@getPost')->name('getPost');
-
+ 
     Route::get('auth', function () {
         return view('RegComponents.signUp');
     })->name('authForm');
@@ -45,6 +47,12 @@ Route::middleware('set_locale')->group(function () {
     Route::get('auth/reg', function () {
         return view('RegComponents.register');
     })->name('regForm');
+
+    Route::get('auth/log/twitter', 'App\Http\Controllers\TwitterController@logWithTwitter');
+    Route::get('auth/log/twitter/callback', 'App\Http\Controllers\TwitterController@handleTwitterCallback');
+
+    Route::get('auth/log/google', 'App\Http\Controllers\GoogleController@logWithGoogle');
+    Route::get('auth/log/google/callback', 'App\Http\Controllers\GoogleController@handleGoogleCallback');
 
     Route::get('auth/log', function () {
         return view('RegComponents.login');
@@ -69,15 +77,15 @@ Route::middleware('set_locale')->group(function () {
     Route::get('user/profile',  'App\Http\Controllers\userController@showUserProfile')->name('userProfile');
 
     Route::post('user/profile', 'App\Http\Controllers\userController@setUserData')->name('setData');
-    
+
     Route::delete('user/profile', 'App\Http\Controllers\UserController@deleteImage')->name('deleteImage');
 
-    Route::get('team', function(){
+    Route::get('team', function () {
         return view('footer.team');
     })->name('team');
 
-    Route::get('feed','App\Http\Controllers\FeedController@getAllUsers')->name('feed');
+    Route::get('feed', 'App\Http\Controllers\FeedController@getAllUsers')->name('feed');
 
-    Route::get('user/{id}','App\Http\Controllers\FeedController@getOneUser')->name('OneUser');
+    Route::get('user/{id}', 'App\Http\Controllers\FeedController@getOneUser')->name('OneUser');
     Route::POST('create-response', 'App\Http\Controllers\ResponseController@createResponse')->name("create-response");
-});
+ });

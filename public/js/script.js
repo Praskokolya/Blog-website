@@ -12,6 +12,7 @@ function ShowResponseInput(id) {
         var data = new FormData();
         data.append("response", Response);
         data.append("contact_id", id);
+        inputGroupDiv.value = "";
 
         fetch("create-response", {
             method: "POST",
@@ -22,7 +23,10 @@ function ShowResponseInput(id) {
         })
         .then((response) => {
             if (response.status === 200) {
-                console.log("Successful");
+                inputGroupDiv.style.display = "none";
+                inputGroupDiv.value = "";
+
+
             } else {
                 console.error("ПОМИЛКА!");
             }
@@ -31,4 +35,5 @@ function ShowResponseInput(id) {
             console.error(error);
         });
     }
+    
 }

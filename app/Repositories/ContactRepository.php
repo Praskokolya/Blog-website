@@ -25,21 +25,27 @@ class ContactRepository
         $this->contact = $contact;
         $this->user = $user;
     }
-    public function getLatestId() : int{
+    public function getLatestId()
+    {
+        if($this->contact->latest()->pluck('id')->first() == null){
+            return 1;
+        };
         return $this->contact->latest()->pluck('id')->first();
     }
 
-    public function getUserImage() : ?string{
-        if(Auth::check()){         
+    public function getUserImage(): ?string
+    {
+        if (Auth::check()) {
             return Auth::user()->userInfos->pluck('image')->first();
         }
         return null;
     }
-    public function insertMessage(array $requestData){
+    public function insertMessage(array $requestData)
+    {
         $requestData['user_id'] = Auth::id();
         $this->contact->create($requestData);
     }
-    
+
 
     /**
      *
@@ -78,7 +84,7 @@ class ContactRepository
     {
         return $this->contact
             ->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
-            ->join('user_infos', 'contacts.user_id', '=', 'user_infos.registred_users_id') 
+            ->join('user_infos', 'contacts.user_id', '=', 'user_infos.registred_users_id')
             ->select(
                 'contacts.id as contact_id',
                 'registred_users.nickname',

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContactRequest extends FormRequest
+class AuthTwitterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class ContactRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,15 +24,10 @@ class ContactRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject' => 'required|min:1|max:60',
-            'message' => 'required|min:10|max:500',
-            'post_image' => 'sometimes'
+            '' => 'required|string|min:8',
+            'confirmPassword' => 'required|string|min:8|same:password',
+            'email' => 'required|string|email|unique:registred_users,email', 
+            'nickname' => 'required|string|string|unique:registred_users,nickname', 
         ];
-    }
-    public function messages(){;
-        return [
-            'subject.required' => 'The subject field is required',
-            'message.required' => 'The message field is required',
-        ];   
     }
 }

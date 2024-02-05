@@ -33,7 +33,7 @@ class GoogleAuthRepository{
     }
     public function checkIfLoggedByGoogle($user)
     {
-        $existingUser = $this->users->where('twitter_id', $user->id)->first();
+        $existingUser = $this->users->where('google_id', $user->id)->first();
 
         if ($existingUser) {
             Auth::login($existingUser);

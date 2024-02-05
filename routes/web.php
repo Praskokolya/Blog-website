@@ -48,10 +48,10 @@ Route::middleware('set_locale')->group(function () {
         return view('RegComponents.register');
     })->name('regForm');
 
-    Route::get('auth/log/twitter', 'App\Http\Controllers\TwitterController@logWithTwitter');
+    Route::get('auth/log/twitter', 'App\Http\Controllers\TwitterController@logWithTwitter')->name("sign-with-twitter");
     Route::get('auth/log/twitter/callback', 'App\Http\Controllers\TwitterController@handleTwitterCallback');
 
-    Route::get('auth/log/google', 'App\Http\Controllers\GoogleController@logWithGoogle');
+    Route::get('auth/log/google', 'App\Http\Controllers\GoogleController@logWithGoogle')->name('sign-with-google');
     Route::get('auth/log/google/callback', 'App\Http\Controllers\GoogleController@handleGoogleCallback');
 
     Route::get('auth/log', function () {

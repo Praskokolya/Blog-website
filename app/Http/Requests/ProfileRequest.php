@@ -24,7 +24,7 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'nickname' => 'required|string|max:16',
+            'nickname' => 'required|string|max:24',
             'interests' => 'max:255|sometimes',
             'birthdate' => 'sometimes|',
             'gender' => 'sometimes|',

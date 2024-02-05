@@ -57,7 +57,7 @@
                                                 <form id="myForm" class="hiddenForm" id="new-name">
                                                     @csrf
                                                     <input type="text" name="new-name" id="new-name"
-                                                        value={{ Auth::user()->nickname }}>
+                                                        value="{{ Auth::user()->nickname }}">
                                                 </form>
 
                                                 <div class="text-muted mb-0">

@@ -31,13 +31,10 @@ class AuthRepository
     /**
      * @return mixed
      */
-    public function createNewUser(string $password, string $nickname, string $email)
+    public function createNewUser($request)
     {
-        return $this->users->create([
-            'nickname' => $nickname,
-            'email' => $email,
-            'password' => $password,
-        ]);
+        $request['password'] = bcrypt($request['password']);
+        return $this->users->create($request);
     }
     /**
      *
@@ -52,26 +49,5 @@ class AuthRepository
             return $emailForCheck->password;
         };
     }
-    public function createUserWithTwitter($user)
-    {
-        return $this->users->create([
-            'nickname' => $user->nickname,
-            'email' => null,
-            'password' => null,
-            'twitter_id' => $user->id,
-
-        ]);
-    }
-    public function checkIfLoggedByTwitter($user)
-    {
-        $existingUser = $this->users->where('twitter_id', $user->id)->first();
-
-        if ($existingUser) {
-            Auth::login($existingUser);
-        } else {
-            Auth::login($this->createUserWithTwitter($user));
-            $this->userRepository->create();
-            $this->userRepository->updateUserInfo(['image' => $this->userProfileService->saveUserPhotoFromTwitterOrGoogle($user->avatar)]);
-        }
-    }
+ 
 }

@@ -39,7 +39,7 @@ Route::middleware('set_locale')->group(function () {
     Route::delete("post/{id}", 'App\Http\Controllers\ContactController@delete')->name('delete');
 
     Route::post('post/sort', 'App\Http\Controllers\ContactController@getPost')->name('getPost');
- 
+
     Route::get('auth', function () {
         return view('RegComponents.signUp');
     })->name('authForm');
@@ -58,8 +58,11 @@ Route::middleware('set_locale')->group(function () {
         return view('RegComponents.login');
     })->name('login');
 
-    Route::post('auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
-
+    Route::post('auth/reg/done', 'App\Http\Controllers\authController@prepareData')->name('registerAccount');
+    Route::get('auth/reg/verificate-email', function () {
+        return view('VerificateCode');
+    })->name('VerificateAccount');
+    Route::post('auth/reg/check-code', 'App\Http\Controllers\authController@createAccount')->name('checkEmailCode');
     Route::post('auth/log/done', 'App\Http\Controllers\authController@checkIfLog')->name('logAccount');
 
     Route::get('auth/logout', 'App\Http\Controllers\authController@logout')->name('logoutAccount');
@@ -88,4 +91,4 @@ Route::middleware('set_locale')->group(function () {
 
     Route::get('user/{id}', 'App\Http\Controllers\FeedController@getOneUser')->name('OneUser');
     Route::POST('create-response', 'App\Http\Controllers\ResponseController@createResponse')->name("create-response");
- });
+});

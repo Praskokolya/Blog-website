@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\AuthRepository;
+use App\Repositories\TwitterRepository;
 use App\Services\TwitterService;
 use Laravel\Socialite\Facades\Socialite;
 
 class TwitterController extends Controller
 {
-    public $authRepository;
+    public $twitterRepository;
 
 
-    public function __construct(AuthRepository $authRepository)
+    public function __construct(TwitterRepository $twitterRepository)
     {
-        $this->authRepository = $authRepository;
+        $this->twitterRepository = $twitterRepository;
     }
     public function logWithTwitter()
     {
@@ -23,7 +24,7 @@ class TwitterController extends Controller
     public function handleTwitterCallback()
     {
         $user = Socialite::driver('twitter')->user();
-        $this->authRepository->checkIfLoggedByTwitter($user);
+        $this->twitterRepository->checkIfLoggedByTwitter($user);
         return redirect('/user/profile');
     }
 }

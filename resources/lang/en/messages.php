@@ -39,4 +39,7 @@ return [
     'confirm_password' => 'Confirm your password',
     'check_in' => 'Check in',
     'upload_image' => 'Upload photo',
+    'almost-done' => 'Almost done! Enter the code sent to your email, if there is no code, it may have gone to the spam section.',
+    'your_code' => 'Your code',
+    'enter_your_code' => 'Enter your code'
 ];

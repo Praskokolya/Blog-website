@@ -2,23 +2,21 @@
 
 namespace App\Mail;
 
+use App\Services\EmailService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class Register extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
+    public $emailService;
     public function __construct()
     {
-        //
     }
 
     /**
@@ -26,11 +24,14 @@ class Register extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(EmailService $emailService)
     {
+        $this->emailService = $emailService;
+
+        $this->emailService->createUserCode();
+        
         return $this->subject('YOUR VERIFICATION MAIL FROM POST SITE')
-            ->from('PostSite@mail.dev', 'Test Mail')
-            ->view('Secret-Code', ['data' => '111111111111']);
+            ->from('PostSite@mail.dev', 'Verification Mail')
+            ->view('Secret-Code', ['data' => Cache::get('email-code')]);
     }
-    
 }

@@ -14,6 +14,7 @@ class HeaderComposer{
     }
     public function compose(View $view)
     {
+        
         $data = $this->contactRepository->getUserImage();
         if($data == null){
             $data = 'photos/without_picture.png';

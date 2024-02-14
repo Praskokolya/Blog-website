@@ -21,19 +21,15 @@
                                  ) }}" width="130px" class="img-fluid rounded-circle">
                                 <div class="media-body mb-5 text-black">
                                     <h4 class="mt-0 mb-0">{{ $data->nickname }}</h4>
-                                    <div class="bg-light p-4 d-flex justify-content-end text-center">
+                                    <div class="bg-light p-4 d-flex justify-content-between text-center"> <!-- Changed justify-content-end to justify-content-between -->
                                         <ul class="list-inline mb-0">
-                                            <li class="list-inline-item">
+                                            <li class="list-inline-item ml-auto"> <!-- Added ml-auto class here -->
                                                 <h5 class="font-weight-bold mb-0 d-block">{{ $amountOfPosts }}</h5>
                                                 <small class="text-muted"> <i class="fas fa-image mr-1"></i>Posts</small>
                                             </li>
                                             <li class="list-inline-item">
-                                                <h5 class="font-weight-bold mb-0 d-block">745</h5>
-                                                <small class="text-muted"> <i class="fas fa-user mr-1"></i>Followers</small>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <h5 class="font-weight-bold mb-0 d-block">340</h5>
-                                                <small class="text-muted"> <i class="fas fa-user mr-1"></i>Following</small>
+                                                <h5 class="font-weight-bold mb-0 d-block"></h5>
+                                                <small class="text-muted"> <i class="fas fa-user mr-1"></i></small>
                                             </li>
                                         </ul>
                                     </div>
@@ -85,6 +81,7 @@
                                         </div>
                                     @endif
                                 @endforeach
+                                @if ($amountOfPosts == 0) There's no posts yet @endif
                             </div>
                             {{ $posts->links() }}
                         </div>

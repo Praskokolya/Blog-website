@@ -20,8 +20,7 @@ class UserCreating
      * @return void
      */
     public $email;
-    public function __construct($email)
+    public function __construct()
     {
-        $this->email = $email;
     }
 }

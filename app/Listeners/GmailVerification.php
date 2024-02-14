@@ -28,10 +28,8 @@ class GmailVerification
      * @param  \App\Events\UserCreating  $event
      * @return void
      */
-    public function handle(UserCreating $event)
+    public function handle()
     {
-        $email = 'puchtek1337@gmail.com';
-        Mail::to($email)->send(new Register());
-
+        Mail::to(Request()->email)->send(new Register());
     }
 }

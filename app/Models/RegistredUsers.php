@@ -11,7 +11,7 @@ class RegistredUsers extends Authenticatable
     use HasFactory;
 
     public $table = 'registred_users';
-    protected $fillable = ['nickname', 'email', 'password', 'twitter_id', 'google_id'];
+    protected $fillable = ['nickname', 'email', 'password', 'twitter_id', 'google_id', 'email_code'];
     public function contacts()
     {
         return $this->hasMany(Contact::class);

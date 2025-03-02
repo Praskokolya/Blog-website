@@ -1,4 +1,4 @@
 <?php
 return [
-    'welcome' => 'РУСНЯ СОСАТЬ!',
+    '' => 'nothing here',
 ];

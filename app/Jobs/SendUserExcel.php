@@ -22,12 +22,12 @@ class SendUserExcel implements ShouldQueue
      *
      * @return void
      */
-
     public $fileService;
     public $userPostsExport;
     public $currentUserNickName;
     public $telegramService;
     public $id;
+
     public function __construct($currentUserNickname, $id)
     {
         $this->currentUserNickName = $currentUserNickname;
@@ -43,12 +43,7 @@ class SendUserExcel implements ShouldQueue
      * const PATH
      */
     const PATH = "public/excel-files";
-    /**
-     * @param FileService $fileService
-     * @param UserPostsExport $userPostsExport
-     * @param TelegramService $sendExcelService
-     * @return void
-     */
+
     public function handle(FileService $fileService, UserPostsExport $userPostsExport, TelegramService $sendExcelService)
     {
         try {

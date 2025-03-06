@@ -27,7 +27,6 @@ class GetPosts
      * just put id of user and it get all post of this user
      * @return \Illuminate\Support\Collection
      */
-
     public function getPostByUserId(int $userId)
     {
         return $this->contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')

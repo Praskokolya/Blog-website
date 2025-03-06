@@ -92,3 +92,19 @@ Route::middleware('set_locale')->group(function () {
     Route::get('user/{id}', 'App\Http\Controllers\FeedController@getOneUser')->name('OneUser');
     Route::POST('create-response', 'App\Http\Controllers\ResponseController@createResponse')->name("create-response");
 });
+    }
+    )->name('login');
+    
+    Route::post('/auth/reg/done', 'App\Http\Controllers\authController@createAccount')->name('registerAccount');
+    
+    Route::post('/auth/log/done', 'App\Http\Controllers\authController@checkIfLog')->name('logAccount');
+    
+    Route::get('/auth/logout', 'App\Http\Controllers\authController@logout')->name('logoutAccount');
+    
+    Route::get('/change_language/{locale}', 'App\Http\Controllers\LanguageController@changeLanguage')->name('changeLanguage');
+
+    Route::get('send/all/posts', 'App\Http\Controllers\SendExcelController@sendAllPosts')->name('sendExcel');
+    
+    Route::get('send/user/posts', 'App\Http\Controllers\SendExcelController@sendUserPosts')->name('sendUserExcel');
+
+});

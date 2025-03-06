@@ -1,0 +1,58 @@
+a:hover {
+  color: rgb(144, 143, 143);
+}
+
+a {
+  color: black
+}
+
+.hiddenForm,
+.hiddenbtn,
+.hiddenInput {
+  display: none;
+}
+
+#avatar {
+  width: 95%;
+  height: 95%;
+}
+
+.avatar-container {
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin-left: 33%;
+}
+.bottom-image {
+  display: none;
+  width: 30px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  cursor: pointer;
+
+}
+
+.bottom-image-delete {
+  display: none;
+  width: 30px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+#postImage{
+  min-width: 0%;
+  min-height: 0%;
+  max-width: 125px;
+  max-height: 125px;
+}
+#avatarHeader{
+  width: 50px;
+  height: 50px;
+}
+#avatarPost{
+  width: 50px;
+  height: 50px;
+}

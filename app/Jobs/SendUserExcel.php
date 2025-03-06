@@ -2,9 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Exports\AllPostsExport;
 use App\Exports\UserPostsExport;
-use App\Models\Contact;
 use App\Services\FileService;
 use App\Services\TelegramService;
 use Illuminate\Bus\Queueable;
@@ -12,8 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Exception;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -26,12 +22,12 @@ class SendUserExcel implements ShouldQueue
      *
      * @return void
      */
-
     public $fileService;
     public $userPostsExport;
     public $currentUserNickName;
     public $telegramService;
     public $id;
+
     public function __construct($currentUserNickname, $id)
     {
         $this->currentUserNickName = $currentUserNickname;
@@ -47,13 +43,7 @@ class SendUserExcel implements ShouldQueue
      * const PATH
      */
     const PATH = "public/excel-files";
-    /**
-     *
-     * @param FileService $fileService
-     * @param UserPostsExport $userPostsExport
-     * @param TelegramService $sendExcelService
-     * @return void
-     */
+
     public function handle(FileService $fileService, UserPostsExport $userPostsExport, TelegramService $sendExcelService)
     {
         try {

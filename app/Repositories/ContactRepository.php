@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Contact;
 use App\Models\RegistredUsers;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ContactRepository
@@ -14,6 +15,8 @@ class ContactRepository
     protected $contact;
     protected $user;
 
+    private const DEFAULT_POSTS_PER_PAGE = 3;
+
     /**
      * ContactRepository constructor
      */
@@ -22,22 +25,27 @@ class ContactRepository
         $this->contact = $contact;
         $this->user = $user;
     }
-
-    /**
-     * @param string $subject
-     * @param string $message
-     * @param integer $user_id
-     * @return void
-     */
-    public function insertMessage(string $subject, string $message, int $user_id)
+    public function getLatestId()
     {
-        $this->contact->create([
-            'subject' => $subject,
-            'message' => $message,
-            'user_id' => $user_id,
-            'is_posted' => true,
-        ]);
+        if($this->contact->latest()->pluck('id')->first() == null){
+            return 1;
+        };
+        return $this->contact->latest()->pluck('id')->first();
     }
+
+    public function getUserImage(): ?string
+    {
+        if (Auth::check()) {
+            return Auth::user()->userInfos->pluck('image')->first();
+        }
+        return null;
+    }
+    public function insertMessage(array $requestData)
+    {
+        $requestData['user_id'] = Auth::id();
+        $this->contact->create($requestData);
+    }
+
 
     /**
      *
@@ -55,6 +63,7 @@ class ContactRepository
             ->update([
                 'subject' => $subject,
                 'message' => $message,
+                'user_id' => Auth::id(),
             ]);
     }
 
@@ -64,8 +73,7 @@ class ContactRepository
      */
     public function getInfoFromUser(int $id)
     {
-        return $this
-            ->contact
+        return $this->contact
             ->find($id);
     }
 
@@ -74,9 +82,20 @@ class ContactRepository
      */
     public function getPostedMessages()
     {
-        return $this->contact::all();
+        return $this->contact
+            ->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
+            ->join('user_infos', 'contacts.user_id', '=', 'user_infos.registred_users_id')
+            ->select(
+                'contacts.id as contact_id',
+                'registred_users.nickname',
+                'contacts.subject',
+                'contacts.message',
+                'post_image',
+                'user_infos.image',
+                'registred_users.id as user_id'
+            )
+            ->paginate(self::DEFAULT_POSTS_PER_PAGE);
     }
-
     /**
      * @param integer $id
      */
@@ -89,13 +108,13 @@ class ContactRepository
 
     /**
      * @param string $nameOfPost
+     * @param integer $id
      * @return mixed
      */
-    public function getPostByTitle(string $nameOfPost)
+    public function getPostByTitle(string $nameOfPost, int $id)
     {
-        return $this
-            ->contact::where('subject', $nameOfPost)
-            ->get();
+        return Contact::where('user_id', $id)
+            ->where('subject', $nameOfPost)->get();
     }
 
     /**

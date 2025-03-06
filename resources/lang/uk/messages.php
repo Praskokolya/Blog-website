@@ -20,7 +20,7 @@ return [
     'delete' => 'Видалити',
     'update_posts' => 'Оновити пост',
     'add_message' => 'Додати повідомлення',
-    'contact_page' => 'Сторінка зворотнього зв\'зку',
+    'contact_page' => 'Зробити пост',
     'your_name' => 'Ваше ім\'я',
     'enter_your_name' => 'Введіть ваше ім\'я',
     'your_email' => 'Ваша електронна пошта',
@@ -38,7 +38,7 @@ return [
     'posts_list' => 'Список постів',
     'enter_password' => 'Введіть свій пароль',
     'confirm_password' => 'Підтвердіть свій пароль',
-    
+    'upload_image' => 'Загрузити фото',
     'check_in' => 'Зареєструватися'
 
 

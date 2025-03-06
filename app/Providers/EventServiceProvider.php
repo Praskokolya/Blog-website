@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\UserCreating;
+use App\Listeners\GmailVerification;
+use App\Models\RegistredUsers;
+use App\Observers\RegistredUsersObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        UserCreating::class => [
+            GmailVerification::class,
+        ],
     ];
 
     /**
@@ -27,6 +34,5 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     }
 }

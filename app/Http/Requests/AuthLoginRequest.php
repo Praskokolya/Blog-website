@@ -17,7 +17,6 @@ class AuthLoginRequest extends FormRequest
             'confirmPassword' => 'required|string|min:8|same:password',
             'email' => 'required|string|email|unique:registred_users,email', 
             'nickname' => 'required|string|string|unique:registred_users,nickname', 
-
         ];
     }
     public function messages()

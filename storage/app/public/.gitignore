@@ -1,2 +1,2 @@
-*
-!.gitignore
+/public/storage/*
+!/public/storage/photos/

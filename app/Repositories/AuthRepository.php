@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\RegistredUsers;
+use App\Services\UserProfileService;
+use Illuminate\Support\Facades\Auth;
 
 class AuthRepository
 {
@@ -17,25 +19,22 @@ class AuthRepository
      *
      * @param RegistredUsers $users
      */
-    public function __construct(RegistredUsers $users)
+    public $userProfileService;
+    public $userRepository;
+    public function __construct(UserProfileService $userProfileService, RegistredUsers $users, UserRepository $userRepository)
     {
+        $this->userProfileService = $userProfileService;
+        $this->userRepository = $userRepository;
         $this->users = $users;
     }
 
     /**
-     *
-     * @param string $password
-     * @param string $nickname
-     * @param string $email
      * @return mixed
      */
-    public function createNewUser(string $password, string $nickname, string $email)
+    public function createNewUser($request)
     {
-        return $this->users->create([
-            'nickname' => $nickname,
-            'email' => $email,
-            'password' => $password,
-        ]);
+        $request['password'] = bcrypt($request['password']);
+        return $this->users->create($request);
     }
     /**
      *
@@ -47,7 +46,8 @@ class AuthRepository
         if ($emailForCheck = $this->users
             ->where('email', $usersEmail)->first()
         ) {
-            return $emailForCheck->password;       
+            return $emailForCheck->password;
         };
     }
+ 
 }

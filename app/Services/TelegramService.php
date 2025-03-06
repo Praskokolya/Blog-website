@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;

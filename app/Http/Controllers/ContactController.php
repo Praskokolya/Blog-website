@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContactRequest;
+use App\Http\Requests\ResponseRequest;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use App\Services\ContactService;
 use App\Repositories\ContactRepository;
-use Illuminate\Support\Facades\Session;
+use App\Repositories\ResponseRepository;
+use Illuminate\Support\Facades\Http;
 
 class ContactController extends Controller
 {
@@ -18,30 +20,35 @@ class ContactController extends Controller
     /** @var ContactRepository */
     public $contactRepository;
 
+    public $responseRepository;
     /**
      * ContactController constructor
      *
      * @param ContactService $contactService
      * @param ContactRepository $contactRepository
      */
-    public function __construct(ContactService $contactService, ContactRepository $contactRepository)
+    public function __construct(ContactService $contactService, ContactRepository $contactRepository, ResponseRepository $responseRepository)
     {
+        $this->responseRepository = $responseRepository;
         $this->contactRepository = $contactRepository;
         $this->contactService = $contactService;
-        $this->middleware('auth')->only('allData');
     }
 
     /**
      * @method submit()
      *
      * @param ContactRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return mixed
      */
     public function submit(ContactRequest $request)
     {
-        $subject = $request->input('subject');
-        $message = $request->input('message');
-        $this->contactRepository->insertMessage($subject, $message, Auth::id());
+        $requestData = $request->validated();
+        if ($request->hasFile('post_image')) {
+            $path = $this->contactService->savePostPhoto($requestData['post_image']);
+            $requestData['post_image'] = $path;
+        } else {
+        }
+        $this->contactRepository->insertMessage($requestData);
         return redirect('/');
     }
 
@@ -49,8 +56,9 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function allData()
+    protected function all()
     {
+
         $allPosts = Contact::find($this->contactRepository->getAllMessages(Auth::id()));
         return view('messages', ['data' => $allPosts]);
     }
@@ -60,15 +68,13 @@ class ContactController extends Controller
      * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function showOneMessage(int $id)
+    protected function message(int $id)
     {
         $user = Auth::user()->nickname;
-        $this
-            ->contactService
+        $this->contactService
             ->transmitUserData($user, $id);
 
-        $postInfo = $this
-            ->contactRepository
+        $postInfo = $this->contactRepository
             ->getInfoFromUser($id);
         return view('OneMessage', ['data' => $postInfo, 'name' => $user]);
     }
@@ -79,7 +85,7 @@ class ContactController extends Controller
      * @param integer $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function updateMessage(int $id)
+    protected function update(int $id)
     {
         return view('update', ['data' => $this->contactRepository->getInfoFromUser($id)]);
     }
@@ -91,7 +97,7 @@ class ContactController extends Controller
      * @param ContactRequest $req
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function updateMessageSubmit(int $id, ContactRequest $req)
+    protected function updateSubmit(int $id, ContactRequest $req)
     {
         $subject = $req->input('subject');
         $message = $req->input('message');
@@ -103,39 +109,35 @@ class ContactController extends Controller
             ->route('contactDataOne', $id)
             ->with('success', 'Post was updated');
     }
-
     /**
      * @method deleteMessage()
      *
      * @param integer $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function deleteMessage(int $id)
+    protected function delete(int $id)
     {
         $this->contactRepository
             ->deleteMessage($id);
         return redirect()->route('contactData')->with('success', 'Post delete successful');
     }
-
     /**
      * @method getPostByTitle()
      *
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    protected function getPostByTitle(Request $request)
+    public function getPost(Request $request)
     {
-        if ($this
-            ->contactRepository
-            ->getPostByTitle($request->namePost)
+        if ($this->contactRepository
+            ->getPostByTitle($request->namePost, Auth::id())
             ->isEmpty()
         ) {
             return redirect()->route('contactData')->with('error', 'Post not found');
         } else {
-            return view('messages', ['data' => $this->contactRepository->getPostByTitle($request->namePost)]);
+            return view('messages', ['data' => $this->contactRepository->getPostByTitle($request->namePost, Auth::id())]);
         }
     }
-
     /**
      * @method showHomePage
      *
@@ -143,6 +145,12 @@ class ContactController extends Controller
      */
     protected function showHomePage()
     {
-        return view('home', ['data' => $this->contactRepository->getPostedMessages()]);
+        return view('home', ['data' => $this->contactRepository->getPostedMessages(), 'responses' => $this->responseRepository->getReponses()]);
     }
+    /**
+     * Undocumented function
+     *
+     * @param ResponseRequest $request
+     * @return void
+     */
 }

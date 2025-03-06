@@ -31,7 +31,7 @@ class GetPosts
     {
         return $this->contact->join('registred_users', 'contacts.user_id', '=', 'registred_users.id')
             ->where('contacts.user_id', $userId)
-            ->select('contacts.message', 'contacts.subject', 'registred_users.email', 'registred_users.nickname')
-            ->get();
+            ->select('contacts.message', 'contacts.post_image' ,'contacts.subject', 'registred_users.email', 'registred_users.nickname')
+            ->paginate(5);
     }
 }

@@ -1,0 +1,12 @@
+#Response {
+    width: 90px;
+    border-radius: 20px;
+    height: 40px;
+    text-align: center;
+}
+#form{
+    display: none;
+}
+.postId {
+    display: none;
+}
